@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#efe8da" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>KAGE — Gaming Studio</title>
+    <script>
+      // Resolve language before first paint so the preloader renders in the right direction.
+      (function () {
+        var lang = 'en';
+        try {
+          var saved = localStorage.getItem('gw-lang');
+          if (saved === 'fa' || saved === 'en') lang = saved;
+          else if ((navigator.languages || [navigator.language]).some(function (l) { return /^fa\b/i.test(l || ''); })) lang = 'fa';
+        } catch (e) {}
+        document.documentElement.lang = lang;
+        document.documentElement.dir = lang === 'fa' ? 'rtl' : 'ltr';
+        document.documentElement.classList.add('is-loading');
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
