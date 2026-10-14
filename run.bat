@@ -29,5 +29,9 @@ echo.
 echo Starting the site... the browser will open automatically.
 echo Keep this window open while you use the site. Close it to stop.
 echo.
+echo  IMPORTANT: do NOT click inside this window.
+echo  If the window title starts with "Select", the site freezes -
+echo  press Esc here, then refresh the browser.
+echo.
 call npm run dev -- --open
 pause
