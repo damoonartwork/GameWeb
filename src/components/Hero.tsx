@@ -29,7 +29,7 @@ export function Hero({ introReady }: { introReady: boolean }) {
       if (!introPlayed.current && !reduced) {
         gsap.set(q('.hero__bg'), { autoAlpha: 0.25 });
         gsap.set(q('.hero__title, .hero__sub, .hero__cta'), { autoAlpha: 0, y: 30, scale: 0.98 });
-        gsap.set(q('.hero__character'), { autoAlpha: 0, yPercent: 18, scale: 1.08 });
+        gsap.set(q('.hero__character-inner'), { autoAlpha: 0, yPercent: 18, scale: 1.08 });
         gsap.set(q('.hero__card, .hero__feature'), { autoAlpha: 0, y: 40 });
         gsap.set(q('.hero__stat'), { autoAlpha: 0, x: lang === 'fa' ? -30 : 30 });
       }
@@ -40,7 +40,7 @@ export function Hero({ introReady }: { introReady: boolean }) {
           const tl = gsap.timeline({ defaults: { ease: ease.out } });
           tl.to(q('.hero__bg'), { autoAlpha: 1, duration: 1.2, ease: 'power2.out' }, 0)
             .to(q('.hero__title, .hero__sub, .hero__cta'), { autoAlpha: 1, y: 0, scale: 1, duration: 1.1, stagger: 0.08 }, 0.1)
-            .to(q('.hero__character'), { autoAlpha: 1, yPercent: 0, scale: 1, duration: 1.4 }, 0.25)
+            .to(q('.hero__character-inner'), { autoAlpha: 1, yPercent: 0, scale: 1, duration: 1.4 }, 0.25)
             .to(q('.hero__card, .hero__feature'), { autoAlpha: 1, y: 0, duration: 1, stagger: 0.1 }, 0.45)
             .to(q('.hero__stat'), { autoAlpha: 1, x: 0, duration: 0.9, stagger: 0.1 }, 0.45);
           q('.hero__stat-value').forEach((el, i) => {
@@ -51,6 +51,9 @@ export function Hero({ introReady }: { introReady: boolean }) {
 
       if (reduced) return;
       // Scroll: the character sinks into the grass slower than the page, the globe drifts.
+      // Scroll tweens target outer wrappers, intro tweens target inner ones — two tweens on the same
+      // property of the same element would make the scroll tween capture the intro's hidden start
+      // state and snap the element back to it on the first scroll.
       const st = { trigger: root.current, start: 'top top', end: 'bottom top', scrub: true };
       gsap.to(q('.hero__character'), { yPercent: 10, ease: 'none', scrollTrigger: st });
       gsap.to(q('.hero__globe'), { yPercent: 25, ease: 'none', scrollTrigger: st });
@@ -104,8 +107,8 @@ export function Hero({ introReady }: { introReady: boolean }) {
 
       <div className="hero__stage">
         <div className="hero__side hero__side--start">
-          <div className="hero__card" data-depth="14">
-            <div className="hero__card-frame">
+          <div className="hero__card">
+            <div className="hero__card-frame" data-depth="14">
               <Media slot="heroCard" alt={t.hero.card.alt} priority />
               <div className="glass-chip">
                 <div>
@@ -130,7 +133,9 @@ export function Hero({ introReady }: { introReady: boolean }) {
         </div>
 
         <div className="hero__character">
-          <Media slot="heroCharacter" alt={t.hero.alt} priority className="media--cutout" />
+          <div className="hero__character-inner">
+            <Media slot="heroCharacter" alt={t.hero.alt} priority className="media--cutout" />
+          </div>
         </div>
 
         <ul className="hero__side hero__side--end hero__stats">

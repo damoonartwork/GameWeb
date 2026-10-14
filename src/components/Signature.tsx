@@ -20,7 +20,7 @@ export function Signature() {
       const q = gsap.utils.selector(root);
       const stage = q('.sig__stage')[0];
       const tl = gsap.timeline();
-      tl.from(q('.sig__character'), { yPercent: 25, autoAlpha: 0, duration: 1.2, ease: 'power3.out' })
+      tl.from(q('.sig__character-inner'), { yPercent: 25, autoAlpha: 0, duration: 1.2, ease: 'power3.out' })
         .from(q('.sig__stat'), { scale: 0.3, autoAlpha: 0, x: 0, duration: 0.9, ease: 'back.out(1.5)', stagger: 0.1 }, 0.25);
       q('.sig__stat-value').forEach((el, i) => tl.add(scramble(el as HTMLElement, t.signature.stats[i].value, 1.1), 0.4 + i * 0.1));
       revealOnScroll(stage, tl, 'top 75%');
@@ -39,7 +39,9 @@ export function Signature() {
       <SectionHead id="sig-title" label={t.signature.label} title={t.signature.title} text={t.signature.text} />
       <div className="sig__stage">
         <div className="sig__character">
-          <Media slot="signature" alt={t.signature.alt} className="media--cutout" />
+          <div className="sig__character-inner">
+            <Media slot="signature" alt={t.signature.alt} className="media--cutout" />
+          </div>
         </div>
         <ul className="sig__stats">
           {t.signature.stats.map((s, i) => (
