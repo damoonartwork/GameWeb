@@ -699,7 +699,8 @@ section:focus {
 }
 .hero__side {
   align-self: end;
-  padding-bottom: clamp(60px, 6vw, 100px);
+  /* keeps the card text and stats above the hero-ground strip */
+  padding-bottom: clamp(90px, 10vw, 190px);
 }
 .hero__card {
   width: min(300px, 100%);
@@ -761,52 +762,27 @@ section:focus {
   font-size: 1.05rem;
 }
 
-/* Grass strip */
+/* Ground strip (hero-ground image): full width, in front of the character's feet.
+   object-position keeps the top edge (the hill silhouette) visible at any width. */
 .ground {
   position: absolute;
   inset-inline: 0;
   bottom: 0;
   z-index: 4;
-  height: clamp(90px, 11vw, 160px);
+  height: clamp(130px, 16vw, 280px);
   pointer-events: none;
 }
-.ground__svg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
+.ground__media.media--fill {
   height: 100%;
 }
-.ground__fringe {
-  position: absolute;
-  inset-inline: 0;
-  top: 100%;
-  width: 100%;
-  height: clamp(16px, 2vw, 34px);
+.ground__media img {
+  object-fit: cover;
+  object-position: 50% 0%;
 }
-.rock {
-  position: absolute;
-  z-index: 1;
-  height: auto;
-}
-.rock--1 {
-  width: clamp(50px, 6vw, 90px);
-  left: 6%;
-  top: -14%;
-}
-.rock--2 {
-  width: clamp(30px, 3vw, 46px);
-  left: 26%;
-  top: 6%;
-}
-.rock--3 {
-  width: clamp(60px, 7vw, 110px);
-  right: 14%;
-  top: -22%;
-}
-.rock--4 {
-  width: clamp(40px, 4vw, 64px);
-  right: 3%;
-  top: 4%;
+.ground__media .media__placeholder {
+  border-radius: 0;
+  border-inline: 0;
+  border-bottom: 0;
 }
 
 /* =========================================================================

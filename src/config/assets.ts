@@ -35,6 +35,7 @@ export const assetSlots = {
   // Hero
   heroCharacter: { file: 'hero-character', ratio: 4 / 5, size: '1400×1750 transparent PNG/WebP' },
   heroCard: { file: 'hero-card', ratio: 9 / 10, size: '900×1000' },
+  heroGround: { file: 'hero-ground', ratio: 5, size: '2560×512 transparent PNG/WebP' },
   // About — fanned character cards
   about1: { file: 'about-card-01', ratio: 4 / 5, size: '800×1000' },
   about2: { file: 'about-card-02', ratio: 4 / 5, size: '800×1000' },
@@ -60,4 +61,4 @@ export function assetUrl(key: AssetKey): string | null {
 }
 
 /** Hero assets the preloader waits for. */
-export const criticalAssets: AssetKey[] = ['heroCharacter', 'heroCard'];
+export const criticalAssets: AssetKey[] = ['heroCharacter', 'heroCard', 'heroGround'];

@@ -2,68 +2,22 @@ import { useRef } from 'react';
 import { useLanguage } from '../i18n/LanguageContext';
 import { useGsap } from '../hooks/useGsap';
 import { gsap, prefersReducedMotion } from '../lib/gsap';
+import { Media } from './Media';
 
 /*
- * Decorative vector scenery (not artwork): the pixel-edged grass under the hero and the
- * hills/cliffs/moon transition before the team section, both modelled on the reference.
- * Pure SVG so they stay crisp, weigh nothing and can be recoloured from CSS tokens.
+ * Scenery: the hero ground (image slot) and the vector hills/cliffs/moon interlude before the
+ * team section. The interlude is pure SVG so it stays crisp and can be recoloured from CSS tokens.
  */
 
-/** Deterministic pixel-step edge, so SSR/rerenders produce the same shape. */
-function pixelEdge(width: number, base: number, step: number, amp: number, seed: number) {
-  let d = `M0 ${base}`;
-  let s = seed;
-  for (let x = 0; x <= width; x += step) {
-    s = (s * 9301 + 49297) % 233280;
-    const y = base + Math.round(((s / 233280) * 2 - 1) * amp);
-    d += ` H${x} V${y}`;
-  }
-  return d;
-}
-
-function bladeFringe(width: number, top: number, seed: number) {
-  // Dark grass blades hanging into the page background.
-  let d = `M0 ${top}`;
-  let s = seed;
-  for (let x = 0; x <= width; x += 9) {
-    s = (s * 9301 + 49297) % 233280;
-    const h = 8 + Math.round((s / 233280) * 22);
-    d += ` L${x + 4} ${top + h} L${x + 9} ${top}`;
-  }
-  return `${d} V0 H0 Z`;
-}
-
-function Rock({ className, variant = 0 }: { className: string; variant?: number }) {
-  const shapes = [
-    'M6 40 18 14 44 6 70 12 86 34 80 44 10 46Z',
-    'M4 30 14 12 34 4 56 10 62 28 54 34 8 34Z',
-    'M2 22 10 8 26 4 40 10 42 22 34 26 6 26Z',
-  ];
-  return (
-    <svg className={`rock ${className}`} viewBox="0 0 90 48" aria-hidden="true">
-      <path d={shapes[variant % 3]} fill="#9aa0a6" />
-      <path d={shapes[variant % 3]} fill="#c9cdd1" transform="translate(4 -3) scale(.82)" opacity=".85" />
-    </svg>
-  );
-}
-
+/**
+ * Ground strip at the bottom of the hero: your own artwork (`hero-ground`), full width,
+ * sitting in front of the character's feet. Until the file exists it shows an empty labelled slot.
+ */
 export function Ground() {
-  const W = 1440;
+  const { t } = useLanguage();
   return (
-    <div className="ground" aria-hidden="true">
-      <Rock className="rock--1" variant={0} />
-      <Rock className="rock--2" variant={2} />
-      <Rock className="rock--3" variant={1} />
-      <Rock className="rock--4" variant={0} />
-      <svg className="ground__svg" viewBox={`0 0 ${W} 150`} preserveAspectRatio="none">
-        <path d={`${pixelEdge(W, 26, 12, 7, 7)} V150 H0 Z`} fill="var(--grass-light)" />
-        <path d={`${pixelEdge(W, 58, 16, 9, 21)} V150 H0 Z`} fill="var(--grass)" />
-        <path d={`${pixelEdge(W, 92, 10, 8, 3)} V150 H0 Z`} fill="var(--grass-light)" opacity=".55" />
-        <path d={`${pixelEdge(W, 118, 14, 5, 11)} V150 H0 Z`} fill="var(--grass)" />
-      </svg>
-      <svg className="ground__fringe" viewBox={`0 0 ${W} 40`} preserveAspectRatio="none">
-        <path d={bladeFringe(W, 0, 5)} fill="var(--grass-deep)" />
-      </svg>
+    <div className="ground">
+      <Media slot="heroGround" alt={t.a11y.scenery} fill priority className="media--cutout ground__media" />
     </div>
   );
 }
