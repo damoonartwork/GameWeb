@@ -12,6 +12,7 @@ type Props = {
   split?: 'chars' | 'words';
   /** Wrap each word in an overflow mask (for rise-from-below reveals). */
   mask?: boolean;
+  id?: string;
 };
 
 /**
@@ -19,14 +20,14 @@ type Props = {
  * switches stay safe). Animation targets: `.sw` (word), `.sw-i` (word inner), `.sc` (char).
  * The full sentence is exposed to assistive tech via aria-label; split pieces are hidden.
  */
-export function SplitText({ text, as = 'span', className, split = 'words', mask = true }: Props) {
+export function SplitText({ text, as = 'span', className, split = 'words', mask = true, id }: Props) {
   const { lang } = useLanguage();
   const byChars = split === 'chars' && lang !== 'fa';
   const words = text.split(' ');
 
   return createElement(
     as,
-    { className: ['split', className].filter(Boolean).join(' '), 'aria-label': text },
+    { id, className: ['split', className].filter(Boolean).join(' '), 'aria-label': text },
     words.map((word, i) => (
       <Fragment key={`${lang}-${i}-${word}`}>
         <span className={mask ? 'sw sw--mask' : 'sw'} aria-hidden="true">

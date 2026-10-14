@@ -1,7 +1,6 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import '@fontsource/anton/400.css';
-import '@fontsource/lalezar/400.css';
+import '@fontsource-variable/archivo/wdth.css';
 import '@fontsource-variable/inter';
 import '@fontsource-variable/vazirmatn';
 import './styles/global.css';

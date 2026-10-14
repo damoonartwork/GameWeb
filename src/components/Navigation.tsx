@@ -7,15 +7,21 @@ import { dur, ease, gsap, prefersReducedMotion } from '../lib/gsap';
 import { lockScroll, scrollToTarget } from '../lib/scroll';
 import { LanguageSwitcher } from './LanguageSwitcher';
 
-export const sections = ['work', 'about', 'showcase', 'contact'] as const;
+export const sections = ['about', 'features', 'process', 'faq'] as const;
 
+/** Uploaded logo, or the placeholder lime mark + wordmark from brand.ts. */
 export function Logo({ className }: { className?: string }) {
   const { lang } = useLanguage();
   const url = assetUrl('logo');
   return url ? (
     <img className={['logo-img', className].filter(Boolean).join(' ')} src={url} alt={brand.name} width={150} height={50} />
   ) : (
-    <span className={['wordmark', className].filter(Boolean).join(' ')}>{lang === 'fa' ? brand.nameFa : brand.name}</span>
+    <span className={['wordmark', className].filter(Boolean).join(' ')}>
+      <svg className="wordmark__mark" viewBox="0 0 28 22" width="26" height="20" aria-hidden="true">
+        <path d="M0 4 8 0v22L0 18zM10 0l8 6v16l-8-6zM20 4l8-4v18l-8 4z" fill="currentColor" />
+      </svg>
+      {lang === 'fa' ? brand.nameFa : brand.name}
+    </span>
   );
 }
 
@@ -36,6 +42,10 @@ export function useAnchorClick(after?: () => void) {
   };
 }
 
+/**
+ * Header sits on top of the hero and scrolls away with it (as in the reference):
+ * logo · centre links · language + lime CTA. Below 1000px the links move into an overlay menu.
+ */
 export function Navigation({ introReady }: { introReady: boolean }) {
   const { t, lang } = useLanguage();
   const header = useRef<HTMLElement>(null);
@@ -44,61 +54,34 @@ export function Navigation({ introReady }: { introReady: boolean }) {
   const [open, setOpen] = useState(false);
   const menuTl = useRef<gsap.core.Timeline | null>(null);
 
-  // Entrance after the preloader.
   useGsap(
     () => {
+      if (prefersReducedMotion()) return;
       if (!introReady) {
-        gsap.set('.nav__item', { yPercent: -120, autoAlpha: 0 });
+        gsap.set('.nav__item', { y: -20, autoAlpha: 0 });
         return;
       }
-      gsap.fromTo('.nav__item', { yPercent: -120, autoAlpha: 0 }, {
-        yPercent: 0,
-        autoAlpha: 1,
-        duration: dur.m,
-        ease: ease.out,
-        stagger: 0.07,
-        delay: 0.5,
-        clearProps: 'transform',
-      });
+      gsap.fromTo(
+        '.nav__item',
+        { y: -20, autoAlpha: 0 },
+        { y: 0, autoAlpha: 1, duration: dur.m, ease: ease.soft, stagger: 0.06, clearProps: 'transform' },
+      );
     },
     [introReady],
     header,
   );
 
-  // Hide on scroll down, reveal on scroll up.
-  useEffect(() => {
-    let last = window.scrollY;
-    let hidden = false;
-    const onScroll = () => {
-      const y = window.scrollY;
-      const shouldHide = y > last && y > 200 && !open;
-      if (shouldHide !== hidden) {
-        hidden = shouldHide;
-        header.current?.classList.toggle('is-hidden', hidden);
-      }
-      header.current?.classList.toggle('is-scrolled', y > 40);
-      last = y;
-    };
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, [open]);
-
-  // Overlay menu timeline (rebuilt per language because the link text and direction change).
   useGsap(
     () => {
       const reduced = prefersReducedMotion();
       const tl = gsap.timeline({ paused: true });
       tl.set(menu.current, { visibility: 'visible' })
-        .fromTo(
-          menu.current,
-          { clipPath: 'inset(0% 0% 100% 0%)' },
-          { clipPath: 'inset(0% 0% 0% 0%)', duration: reduced ? 0.01 : dur.m, ease: ease.inOut },
-        )
+        .fromTo(menu.current, { autoAlpha: 0 }, { autoAlpha: 1, duration: reduced ? 0.01 : dur.xs })
         .fromTo(
           '.menu__link-inner',
           { yPercent: 110 },
           { yPercent: 0, duration: reduced ? 0.01 : dur.m, ease: ease.out, stagger: 0.06 },
-          '-=0.35',
+          '-=0.1',
         )
         .fromTo('.menu__foot', { autoAlpha: 0 }, { autoAlpha: 1, duration: dur.s }, '-=0.6');
       menuTl.current = tl;
@@ -152,6 +135,7 @@ export function Navigation({ introReady }: { introReady: boolean }) {
   }, [open]);
 
   const onAnchor = useAnchorClick(() => setOpen(false));
+  const onAnchorPlain = useAnchorClick();
 
   return (
     <>
@@ -159,30 +143,34 @@ export function Navigation({ introReady }: { introReady: boolean }) {
         {t.nav.skip}
       </a>
       <header ref={header} className={['nav', open ? 'is-open' : ''].join(' ')}>
-        <a className="nav__logo nav__item" href="#top" onClick={onAnchor} aria-label={t.a11y.logo}>
+        <a className="nav__logo nav__item" href="#top" onClick={onAnchorPlain} aria-label={t.a11y.logo}>
           <Logo />
         </a>
         <nav className="nav__links nav__item" aria-label={t.nav.menu}>
           {sections.map((id) => (
-            <a key={id} href={`#${id}`} onClick={onAnchor} className="link-roll">
-              <span data-text={t.nav[id]}>{t.nav[id]}</span>
+            <a key={id} href={`#${id}`} onClick={onAnchorPlain} className="nav__link">
+              {t.nav[id]}
             </a>
           ))}
         </nav>
         <div className="nav__actions">
-          <div className="nav__item">
+          <div className="nav__item nav__lang">
             <LanguageSwitcher />
           </div>
+          <a className="btn-lime nav__item nav__cta" href="#contact" onClick={onAnchorPlain}>
+            {t.nav.cta}
+          </a>
           <button
             ref={toggleBtn}
             type="button"
             className="menu-btn nav__item"
             aria-expanded={open}
             aria-controls="site-menu"
+            aria-label={open ? t.nav.close : t.nav.menu}
             onClick={() => setOpen((o) => !o)}
           >
-            <span className="menu-btn__label">{open ? t.nav.close : t.nav.menu}</span>
             <span className="menu-btn__icon" aria-hidden="true">
+              <span />
               <span />
               <span />
             </span>
@@ -193,12 +181,12 @@ export function Navigation({ introReady }: { introReady: boolean }) {
       <div ref={menu} id="site-menu" className="menu" aria-hidden={!open} inert={!open}>
         <nav className="menu__nav" aria-label={t.nav.menu}>
           <ul>
-            {sections.map((id, i) => (
+            {[...sections, 'contact' as const].map((id, i) => (
               <li key={id}>
                 <a href={`#${id}`} onClick={onAnchor} className="menu__link">
                   <span className="menu__link-inner">
                     <span className="menu__index">{formatIndex(i + 1, lang)}</span>
-                    <span className="menu__label">{t.nav[id]}</span>
+                    <span className="menu__label">{id === 'contact' ? t.nav.cta : t.nav[id]}</span>
                   </span>
                 </a>
               </li>

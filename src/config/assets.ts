@@ -32,20 +32,25 @@ export type AssetSlot = {
 
 export const assetSlots = {
   logo: { file: 'logo', ratio: 3, size: 'SVG, ~600×200' },
-  heroMain: { file: 'hero-main', ratio: 4 / 5, size: '1600×2000' },
-  heroSide1: { file: 'hero-side-01', ratio: 3 / 4, size: '900×1200' },
-  heroSide2: { file: 'hero-side-02', ratio: 1, size: '900×900' },
-  project1: { file: 'project-01', ratio: 4 / 5, size: '1200×1500' },
-  project2: { file: 'project-02', ratio: 4 / 5, size: '1200×1500' },
-  project3: { file: 'project-03', ratio: 4 / 5, size: '1200×1500' },
-  project4: { file: 'project-04', ratio: 4 / 5, size: '1200×1500' },
-  project5: { file: 'project-05', ratio: 4 / 5, size: '1200×1500' },
-  about1: { file: 'about-01', ratio: 3 / 4, size: '1200×1600' },
-  about2: { file: 'about-02', ratio: 1, size: '1000×1000' },
-  showcaseMain: { file: 'showcase-main', ratio: 16 / 9, size: '2560×1440' },
-  showcase1: { file: 'showcase-01', ratio: 4 / 5, size: '1000×1250' },
-  showcase2: { file: 'showcase-02', ratio: 4 / 5, size: '1000×1250' },
-  cta: { file: 'cta-art', ratio: 1, size: '1200×1200' },
+  // Hero
+  heroCharacter: { file: 'hero-character', ratio: 4 / 5, size: '1400×1750 transparent PNG/WebP' },
+  heroCard: { file: 'hero-card', ratio: 9 / 10, size: '900×1000' },
+  // About — fanned character cards
+  about1: { file: 'about-card-01', ratio: 4 / 5, size: '800×1000' },
+  about2: { file: 'about-card-02', ratio: 4 / 5, size: '800×1000' },
+  about3: { file: 'about-card-03', ratio: 4 / 5, size: '800×1000' },
+  // Features bento
+  feature1: { file: 'feature-01', ratio: 1, size: '1000×1000 transparent PNG/WebP' },
+  feature2: { file: 'feature-02', ratio: 1, size: '1000×1000 transparent PNG/WebP' },
+  feature3: { file: 'feature-03', ratio: 1, size: '1000×1000 transparent PNG/WebP' },
+  // Signature character with the four stat circles
+  signature: { file: 'signature-character', ratio: 3 / 4, size: '1200×1600 transparent PNG/WebP' },
+  // Team / cast
+  team1: { file: 'team-01', ratio: 9 / 10, size: '900×1000' },
+  team2: { file: 'team-02', ratio: 9 / 10, size: '900×1000' },
+  team3: { file: 'team-03', ratio: 9 / 10, size: '900×1000' },
+  // Closing banner
+  cta: { file: 'cta-characters', ratio: 4 / 3, size: '1600×1200 transparent PNG/WebP' },
 } satisfies Record<string, AssetSlot>;
 
 export type AssetKey = keyof typeof assetSlots;
@@ -55,4 +60,4 @@ export function assetUrl(key: AssetKey): string | null {
 }
 
 /** Hero assets the preloader waits for. */
-export const criticalAssets: AssetKey[] = ['heroMain', 'heroSide1', 'heroSide2'];
+export const criticalAssets: AssetKey[] = ['heroCharacter', 'heroCard'];

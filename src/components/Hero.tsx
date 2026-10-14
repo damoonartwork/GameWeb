@@ -1,16 +1,17 @@
 import { useEffect, useRef } from 'react';
 import { useLanguage } from '../i18n/LanguageContext';
 import { useGsap } from '../hooks/useGsap';
-import { dur, ease, gsap, isTouch, prefersReducedMotion } from '../lib/gsap';
+import { ease, gsap, isTouch, prefersReducedMotion } from '../lib/gsap';
+import { scramble } from '../lib/scramble';
 import { Media } from './Media';
-import { SplitText } from './SplitText';
 import { useAnchorClick } from './Navigation';
-import { RotatingBadge } from './RotatingBadge';
+import { ArrowIcon } from './ui';
+import { Ground } from './Scenery';
 
 /**
- * Hero: three oversized type lines with the main artwork layered *between* them
- * (solid type behind the image, an outline copy of line 2 in front of it), two satellite
- * artworks, a rotating badge, and the intro/CTA row.
+ * Hero (reference: "UNMASK THE FUTURE OF NFTS"): centred headline + CTA, the main character
+ * rising from the grass in the middle, a featured card on the reading-start side, three
+ * scrambling stats on the reading-end side, over a dark→green gradient with grid lines and a globe.
  */
 export function Hero({ introReady }: { introReady: boolean }) {
   const { t, lang } = useLanguage();
@@ -22,56 +23,50 @@ export function Hero({ introReady }: { introReady: boolean }) {
     () => {
       const reduced = prefersReducedMotion();
       const q = gsap.utils.selector(root);
-      const letters = q('.hero__line .sc, .hero__line .sw-i');
 
-      // ---- Intro (runs once; a language switch afterwards shows the final state directly) ----
+      // Intro observed in the reference: the whole stage fades up from dim, the headline settles,
+      // the character rises into place, side elements fade in and the stats scramble to their values.
       if (!introPlayed.current && !reduced) {
-        gsap.set(letters, { yPercent: 115 });
-        gsap.set(q('.hero__main .media'), { clipPath: 'inset(100% 0% 0% 0%)' });
-        gsap.set(q('.hero__main .media__inner'), { scale: 1.35 });
-        gsap.set(q('.hero__side .media'), { clipPath: 'inset(50% 50% 50% 50%)' });
-        gsap.set(q('.hero__outline'), { autoAlpha: 0 });
-        gsap.set(q('.hero__eyebrow, .hero__sub .sw-i, .hero__cta, .hero__scroll'), { yPercent: 110, autoAlpha: 0 });
-        gsap.set(q('.badge'), { scale: 0, rotate: -90 });
+        gsap.set(q('.hero__bg'), { autoAlpha: 0.25 });
+        gsap.set(q('.hero__title, .hero__sub, .hero__cta'), { autoAlpha: 0, y: 30, scale: 0.98 });
+        gsap.set(q('.hero__character'), { autoAlpha: 0, yPercent: 18, scale: 1.08 });
+        gsap.set(q('.hero__card, .hero__feature'), { autoAlpha: 0, y: 40 });
+        gsap.set(q('.hero__stat'), { autoAlpha: 0, x: lang === 'fa' ? -30 : 30 });
       }
 
       if (introReady && !introPlayed.current) {
         introPlayed.current = true;
         if (!reduced) {
           const tl = gsap.timeline({ defaults: { ease: ease.out } });
-          tl.to(letters, { yPercent: 0, duration: dur.l, stagger: { each: 0.028, from: 'start' } }, 0)
-            .to(q('.hero__main .media'), { clipPath: 'inset(0% 0% 0% 0%)', duration: dur.xl, ease: ease.inOut }, 0.1)
-            .to(q('.hero__main .media__inner'), { scale: 1, duration: 2, ease: ease.out }, 0.25)
-            .to(q('.hero__side .media'), { clipPath: 'inset(0% 0% 0% 0%)', duration: dur.l, ease: ease.inOut, stagger: 0.15 }, 0.55)
-            .to(q('.hero__outline'), { autoAlpha: 1, duration: dur.m }, 0.9)
-            .to(q('.hero__eyebrow, .hero__sub .sw-i, .hero__cta, .hero__scroll'), { yPercent: 0, autoAlpha: 1, duration: dur.m, stagger: 0.03 }, 0.7)
-            .to(q('.badge'), { scale: 1, rotate: 0, duration: dur.l, ease: 'back.out(1.6)' }, 1);
+          tl.to(q('.hero__bg'), { autoAlpha: 1, duration: 1.2, ease: 'power2.out' }, 0)
+            .to(q('.hero__title, .hero__sub, .hero__cta'), { autoAlpha: 1, y: 0, scale: 1, duration: 1.1, stagger: 0.08 }, 0.1)
+            .to(q('.hero__character'), { autoAlpha: 1, yPercent: 0, scale: 1, duration: 1.4 }, 0.25)
+            .to(q('.hero__card, .hero__feature'), { autoAlpha: 1, y: 0, duration: 1, stagger: 0.1 }, 0.45)
+            .to(q('.hero__stat'), { autoAlpha: 1, x: 0, duration: 0.9, stagger: 0.1 }, 0.45);
+          q('.hero__stat-value').forEach((el, i) => {
+            tl.add(scramble(el as HTMLElement, t.hero.stats[i].value, 1.3), 0.5 + i * 0.1);
+          });
         }
       }
 
       if (reduced) return;
-
-      // ---- Scroll: the composition pulls apart as the hero leaves ----
+      // Scroll: the character sinks into the grass slower than the page, the globe drifts.
       const st = { trigger: root.current, start: 'top top', end: 'bottom top', scrub: true };
-      const sign = lang === 'fa' ? -1 : 1;
-      gsap.to(q('.hero__line--0'), { xPercent: -8 * sign, ease: 'none', scrollTrigger: st });
-      gsap.to(q('.hero__line--1, .hero__outline'), { xPercent: 10 * sign, ease: 'none', scrollTrigger: st });
-      gsap.to(q('.hero__line--2'), { xPercent: -5 * sign, ease: 'none', scrollTrigger: st });
-      gsap.to(q('.hero__main'), { yPercent: -18, ease: 'none', scrollTrigger: st });
-      gsap.to(q('.hero__side--1'), { yPercent: -45, rotate: -8, ease: 'none', scrollTrigger: st });
-      gsap.to(q('.hero__side--2'), { yPercent: -80, rotate: 10, ease: 'none', scrollTrigger: st });
+      gsap.to(q('.hero__character'), { yPercent: 10, ease: 'none', scrollTrigger: st });
+      gsap.to(q('.hero__globe'), { yPercent: 25, ease: 'none', scrollTrigger: st });
+      gsap.to(q('.hero__copy'), { y: -60, autoAlpha: 0.2, ease: 'none', scrollTrigger: { ...st, end: '60% top' } });
     },
     [introReady, lang],
     root,
   );
 
-  // Pointer depth: each layer follows the cursor at its own depth (desktop only).
+  // Subtle pointer depth on desktop.
   useEffect(() => {
     if (prefersReducedMotion() || isTouch() || !root.current) return;
     const layers = Array.from(root.current.querySelectorAll<HTMLElement>('[data-depth]')).map((el) => ({
       depth: Number(el.dataset.depth),
-      x: gsap.quickTo(el, 'x', { duration: 1.1, ease: ease.soft }),
-      y: gsap.quickTo(el, 'y', { duration: 1.1, ease: ease.soft }),
+      x: gsap.quickTo(el, 'x', { duration: 1.2, ease: ease.soft }),
+      y: gsap.quickTo(el, 'y', { duration: 1.2, ease: ease.soft }),
     }));
     const onMove = (e: PointerEvent) => {
       const nx = e.clientX / window.innerWidth - 0.5;
@@ -87,51 +82,70 @@ export function Hero({ introReady }: { introReady: boolean }) {
 
   return (
     <section ref={root} id="top" className="hero" aria-labelledby="hero-title">
-      <p className="hero__eyebrow">
-        <span className="dot" aria-hidden="true" />
-        {t.hero.eyebrow}
-      </p>
-
-      <h1 id="hero-title" className="hero__title" aria-label={t.hero.lines.join(' ')}>
-        {t.hero.lines.map((line, i) => (
-          <SplitText key={`${lang}-${i}`} text={line} split="chars" className={`hero__line hero__line--${i}`} />
-        ))}
-        {/* Outline copy of line 2: shares its grid cell but stacks *above* the main artwork. */}
-        <span className="hero__outline" aria-hidden="true">
-          {t.hero.lines[1]}
-        </span>
-      </h1>
-
-      <div className="hero__main" data-depth="-18">
-        <Media slot="heroMain" alt={t.hero.alts.main} priority />
+      <div className="hero__bg" aria-hidden="true">
+        <div className="hero__grid" />
+        <div className="hero__globe" data-depth="-12" />
+        <div className="hero__rings" />
       </div>
 
-      <div className="hero__side hero__side--1" data-depth="34">
-        <Media slot="heroSide1" alt={t.hero.alts.side1} priority />
-      </div>
-      <div className="hero__side hero__side--2" data-depth="52">
-        <Media slot="heroSide2" alt={t.hero.alts.side2} priority />
-      </div>
-
-      <div className="hero__badge" data-depth="24">
-        <RotatingBadge text={t.hero.badge} />
-      </div>
-
-      <div className="hero__bottom">
-        <SplitText as="p" text={t.hero.sub} className="hero__sub" />
-        <a href="#work" className="btn hero__cta" onClick={onAnchor}>
-          <span className="btn__label" data-text={t.hero.cta}>
-            {t.hero.cta}
-          </span>
-          <span className="btn__arrow" aria-hidden="true">
-            ↓
-          </span>
+      <div className="hero__copy">
+        <h1 id="hero-title" className="display hero__title">
+          {t.hero.titleLines.map((l, i) => (
+            <span key={i} className="display__line">
+              {l}
+            </span>
+          ))}
+        </h1>
+        <p className="hero__sub">{t.hero.sub}</p>
+        <a href="#about" className="btn-lime btn-lime--lg hero__cta" onClick={onAnchor}>
+          {t.hero.cta}
         </a>
-        <span className="hero__scroll" aria-hidden="true">
-          <span className="hero__scroll-line" />
-          {t.hero.scroll}
-        </span>
       </div>
+
+      <div className="hero__stage">
+        <div className="hero__side hero__side--start">
+          <div className="hero__card" data-depth="14">
+            <div className="hero__card-frame">
+              <Media slot="heroCard" alt={t.hero.card.alt} priority />
+              <div className="glass-chip">
+                <div>
+                  <span className="glass-chip__label">{t.hero.card.label}:</span>
+                  <strong className="glass-chip__value">{t.hero.card.value}</strong>
+                </div>
+                <span className="round-lime" aria-hidden="true">
+                  <ArrowIcon className="flip-x" />
+                </span>
+              </div>
+            </div>
+          </div>
+          <div className="hero__feature">
+            <p className="hero__feature-name">
+              <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+                <path d="M5 3l14 18M19 3 5 21" stroke="var(--lime)" strokeWidth="4" strokeLinecap="round" />
+              </svg>
+              {t.hero.feature.name}
+            </p>
+            <p className="hero__feature-text">{t.hero.feature.text}</p>
+          </div>
+        </div>
+
+        <div className="hero__character">
+          <Media slot="heroCharacter" alt={t.hero.alt} priority className="media--cutout" />
+        </div>
+
+        <ul className="hero__side hero__side--end hero__stats">
+          {t.hero.stats.map((s, i) => (
+            <li key={i} className="hero__stat">
+              <strong className="hero__stat-value" aria-label={s.value}>
+                {s.value}
+              </strong>
+              <span>{s.label}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <Ground />
     </section>
   );
 }
