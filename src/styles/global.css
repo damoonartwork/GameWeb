@@ -1475,16 +1475,22 @@ section:focus {
   margin: 16px 0 26px;
   max-width: 38ch;
 }
-.banner__art {
-  /* sits on the banner's bottom edge on the reading-end side and is taller than the banner,
-     so the artwork breaks out above its top edge */
+.banner__mask {
+  /* covers the banner; the clip is open upward (-200% top) and follows the rounded bottom corners */
   position: absolute;
+  inset: 0;
   z-index: 1;
-  bottom: 0;
-  inset-inline-end: 0;
-  width: 60%;
-  aspect-ratio: 4 / 3; /* matches cta-characters (1600×1200): sized by width, rises above the top edge */
+  clip-path: inset(-200% 0 0 0 round 0 0 24px 24px);
   pointer-events: none;
+}
+.banner__art {
+  /* bigger than the banner: its foot runs below the bottom edge (cut by the mask),
+     its top rises well above the banner */
+  position: absolute;
+  bottom: -14%;
+  inset-inline-end: 2%;
+  width: 62%;
+  aspect-ratio: 4 / 3;
 }
 .banner__art .media--fill {
   height: 100%;
@@ -2473,17 +2479,22 @@ button.round-lime:hover {
     grid-template-columns: 1fr;
     padding-bottom: 0;
   }
-  .banner__art {
+  .banner__mask {
     position: relative;
     inset: auto;
-    width: min(100%, 460px);
-    height: auto;
-    margin-top: 16px;
-    justify-self: center;
+    margin-top: 10px;
+    margin-inline: calc(-1 * clamp(32px, 4.5vw, 60px));
+    height: min(78vw, 360px);
+    clip-path: inset(-200% 0 0 0 round 0 0 24px 24px);
   }
-  .banner__art .media--fill {
-    height: auto;
-    aspect-ratio: 4 / 3;
+  .banner__art {
+    bottom: -12%;
+    inset-inline-end: 50%;
+    translate: 50% 0;
+    width: min(110%, 520px);
+  }
+  [dir='rtl'] .banner__art {
+    translate: -50% 0;
   }
   .footer__cols {
     grid-template-columns: 1fr 1fr;

@@ -23,7 +23,8 @@ export function CtaBanner() {
           .timeline()
           .from(q('.banner'), { y: 80, autoAlpha: 0, scale: 0.96, duration: 1, ease: 'power3.out' })
           .from(q('.banner__copy > *'), { y: 30, autoAlpha: 0, duration: 0.8, ease: 'power3.out', stagger: 0.08 }, 0.3)
-          .from(q('.banner__art'), { yPercent: 20, autoAlpha: 0, duration: 1.1, ease: 'power3.out' }, 0.2),
+          // rises out of the banner floor: the mask clips it at the bottom, so it emerges from below
+          .from(q('.banner__art'), { yPercent: 75, duration: 1.5, ease: 'power3.out' }, 0.15),
         'top 85%',
       );
       gsap.to(q('.banner__glow'), { xPercent: lang === 'fa' ? -12 : 12, duration: 4, repeat: -1, yoyo: true, ease: 'sine.inOut' });
@@ -46,8 +47,11 @@ export function CtaBanner() {
             {t.cta.button}
           </a>
         </div>
-        <div className="banner__art">
-          <Media slot="cta" alt={t.cta.alt} className="media--cutout" fill />
+        {/* mask = the banner's own shape, open upward: clips the art at the bottom and sides only */}
+        <div className="banner__mask">
+          <div className="banner__art">
+            <Media slot="cta" alt={t.cta.alt} className="media--cutout" fill />
+          </div>
         </div>
       </div>
     </section>
