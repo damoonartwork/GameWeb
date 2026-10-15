@@ -1232,91 +1232,45 @@ section:focus {
 }
 
 /* =========================================================================
-   LANDSCAPE INTERLUDE
+   CONTROLLER SPIN (pinned, scroll-scrubbed frame sequence)
    ========================================================================= */
-.land {
+.spin {
   position: relative;
   height: 100svh;
   min-height: 560px;
+  display: grid;
+  place-items: center;
   overflow: hidden;
-  background: var(--bg);
 }
-.land__cliff {
+.spin__glow {
   position: absolute;
-  bottom: 18%;
-  width: min(34vw, 460px);
-  height: 78%;
-  z-index: 2;
-}
-.land__cliff--l {
-  left: 0;
-}
-.land__cliff--r {
-  right: 0;
-}
-.land__layer > svg,
-.land__layer > img {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-.land__layer > img {
-  object-fit: contain;
-  object-position: 50% 100%;
-}
-.land__cliff--l > img {
-  object-position: 0% 100%;
-}
-.land__cliff--r > img {
-  object-position: 100% 100%;
-}
-.land__hills > img {
-  /* full-width hills: keep the top silhouette, crop the bottom on wide screens */
-  object-fit: cover;
-  object-position: 50% 0%;
-}
-.land__sun {
-  position: absolute;
-  z-index: 1;
   left: 50%;
-  top: 6%;
-  width: min(26vw, 320px);
+  top: 50%;
+  width: min(70vw, 760px);
   aspect-ratio: 1;
-  margin-left: max(-13vw, -160px);
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgb(218 255 18 / 0.18), rgb(218 255 18 / 0.06) 55%, transparent);
+  filter: blur(20px);
+  pointer-events: none;
 }
-.land__sun-disc {
+.spin__float {
+  position: relative;
+  width: min(78vw, 900px);
+  aspect-ratio: 900 / 732;
+  max-height: 78svh;
+  animation: spin-float 4.5s ease-in-out infinite;
+}
+.spin__canvas {
   display: block;
   width: 100%;
   height: 100%;
-  border-radius: 50%;
-  background: radial-gradient(circle at 50% 20%, #d7ff3a 0%, #a8e030 45%, #3f8f2a 100%);
+  filter: drop-shadow(0 40px 50px rgb(0 0 0 / 0.55));
 }
-.land__birds {
-  position: absolute;
-  z-index: 2;
-  left: 50%;
-  top: calc(6% + min(26vw, 320px) * 0.55);
-  width: min(21vw, 260px);
-  aspect-ratio: 5 / 2;
-  margin-left: max(-10.5vw, -130px);
-}
-.land__hills {
-  position: absolute;
-  inset-inline: 0;
-  bottom: 0;
-  width: 100%;
-}
-.land__hills--back {
-  height: 62%;
-  z-index: 3;
-}
-.land__hills--mid {
-  height: 50%;
-  z-index: 4;
-}
-.land__hills--front {
-  height: 40%;
-  z-index: 5;
+@keyframes spin-float {
+  50% {
+    transform: translateY(-16px);
+  }
 }
 
 /* =========================================================================
@@ -2460,20 +2414,6 @@ button.round-lime:hover {
     padding-inline: 70px 0;
   }
 
-  .land__cliff {
-    width: 42vw;
-    height: 60%;
-  }
-  .land__sun {
-    width: 44vw;
-    margin-left: -22vw;
-    top: 12%;
-  }
-  .land__birds {
-    top: calc(12% + 44vw * 0.55);
-    width: 36vw;
-    margin-left: -18vw;
-  }
 
   .banner {
     grid-template-columns: 1fr;
@@ -2572,8 +2512,5 @@ button.round-lime:hover {
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
-  }
-  .land__hills--front {
-    transform: none !important;
   }
 }

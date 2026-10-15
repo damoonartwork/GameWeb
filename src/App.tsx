@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { About } from './components/About';
 import { BackToTop } from './components/BackToTop';
 import { CtaBanner } from './components/CtaBanner';
+import { ControllerSpin } from './components/ControllerSpin';
 import { Faq } from './components/Faq';
 import { FontLab } from './components/FontLab';
 import { Footer } from './components/Footer';
@@ -9,7 +10,6 @@ import { GridLines } from './components/GridLines';
 import { Hero } from './components/Hero';
 import { Navigation } from './components/Navigation';
 import { Roadmap } from './components/Roadmap';
-import { Landscape } from './components/Scenery';
 import { Steps } from './components/Steps';
 import { Budget } from './components/store/Budget';
 import { CartDrawer } from './components/store/CartDrawer';
@@ -77,7 +77,7 @@ export function App() {
         <Shop />
         <Steps />
         <Roadmap />
-        <Landscape />
+        <ControllerSpin />
         <Platforms />
         <Faq />
         <CtaBanner />

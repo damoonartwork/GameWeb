@@ -95,7 +95,7 @@ export type Dictionary = {
     contactPending: string;
   };
   backToTop: string;
-  a11y: { placeholder: string; language: string; logo: string; open: string; scenery: string };
+  a11y: { placeholder: string; language: string; logo: string; open: string; scenery: string; spin: string };
 };
 
 const en: Dictionary = {
@@ -243,7 +243,7 @@ const en: Dictionary = {
     contactPending: 'Contact details coming soon.',
   },
   backToTop: 'Back to top',
-  a11y: { placeholder: 'Image placeholder', language: 'Language', logo: 'Home', open: 'Toggle answer', scenery: 'Decorative landscape' },
+  a11y: { placeholder: 'Image placeholder', language: 'Language', logo: 'Home', open: 'Toggle answer', scenery: 'Decorative landscape', spin: 'DualSense controller rotating as you scroll' },
 };
 
 const fa: Dictionary = {
@@ -391,7 +391,7 @@ const fa: Dictionary = {
     contactPending: 'اطلاعات تماس به‌زودی.',
   },
   backToTop: 'بازگشت به بالا',
-  a11y: { placeholder: 'جای تصویر', language: 'زبان', logo: 'خانه', open: 'نمایش یا بستن پاسخ', scenery: 'منظره تزئینی' },
+  a11y: { placeholder: 'جای تصویر', language: 'زبان', logo: 'خانه', open: 'نمایش یا بستن پاسخ', scenery: 'منظره تزئینی', spin: 'دسته دوال‌سنس که با اسکرول می‌چرخد' },
 };
 
 export const translations: Record<Lang, Dictionary> = { en, fa };
