@@ -1068,10 +1068,44 @@ section:focus {
   border-radius: 8px;
   background: linear-gradient(180deg, var(--card), var(--bg-2));
   border: 1px solid var(--line);
-  transition: border-color 0.4s; /* transform is driven by GSAP (useTilt) */
+  transition: border-color 0.35s, color 0.35s; /* transform is driven by GSAP (useTilt) */
 }
-.step:hover {
-  border-color: rgb(218 255 18 / 0.35);
+.step::before {
+  /* lime layer that fades in on hover (the card background is a gradient, which can't transition) */
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--lime);
+  opacity: 0;
+  transition: opacity 0.35s var(--ease-out);
+}
+.step > * {
+  position: relative;
+  z-index: 1;
+}
+.step:hover,
+.step:focus-within {
+  /* inverted on hover: lime card, dark text */
+  border-color: var(--lime);
+  color: var(--lime-ink);
+}
+.step:hover::before,
+.step:focus-within::before {
+  opacity: 1;
+}
+.step__num,
+.step__text {
+  transition: color 0.35s var(--ease-out);
+}
+.step:hover .step__num,
+.step:hover .step__text,
+.step:focus-within .step__num,
+.step:focus-within .step__text {
+  color: var(--lime-ink);
+}
+.step.tilt-shine::after {
+  background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgb(255 255 255 / 0.35), transparent 45%);
 }
 .step {
   position: relative;
