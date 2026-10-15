@@ -325,6 +325,27 @@ section:focus {
   margin-top: 2px;
 }
 
+/* A "cutout" slot that received an image with a solid background becomes a rounded card. */
+.media--cutout.is-opaque {
+  border-radius: 28px;
+  overflow: hidden;
+  border: 1px solid var(--line-strong);
+  box-shadow: 0 40px 80px -40px rgb(0 0 0 / 0.9);
+}
+.media--cutout.is-opaque img {
+  object-fit: cover;
+}
+.ground__media.is-opaque {
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+/* Budget section: circles sit above a card-style image, behind a free-standing character. */
+.sig__stage:has(.media.is-opaque) .sig__stat {
+  z-index: 3;
+  box-shadow: 0 20px 40px -20px rgb(0 0 0 / 0.8);
+}
+
 /* Pointer light for tilting cards (useTilt sets --mx/--my) */
 .tilt-shine::after {
   content: '';

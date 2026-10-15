@@ -28,12 +28,13 @@ export function Media({ slot, file, size, alt, className, priority, ratio, fill 
   const def = slot ? assetSlots[slot] : { file: file ?? '', ratio: ratio ?? 1, size: size ?? '' };
   const url = slot ? assetUrl(slot) : fileUrl(def.file);
   const [failed, setFailed] = useState(false);
+  const [opaque, setOpaque] = useState(false);
   const r = ratio ?? def.ratio;
   const style: CSSProperties | undefined = fill ? undefined : { aspectRatio: String(r) };
   const showImage = url && !failed;
 
   return (
-    <div className={['media', fill ? 'media--fill' : '', className].filter(Boolean).join(' ')} style={style}>
+    <div className={['media', fill ? 'media--fill' : '', opaque ? 'is-opaque' : '', className].filter(Boolean).join(' ')} style={style}>
       <div className="media__inner">
         {showImage ? (
           <img
@@ -45,6 +46,7 @@ export function Media({ slot, file, size, alt, className, priority, ratio, fill 
             decoding="async"
             fetchPriority={priority ? 'high' : 'auto'}
             onError={() => setFailed(true)}
+            onLoad={(e) => setOpaque(hasOpaqueCorners(e.currentTarget))}
             draggable={false}
           />
         ) : (
@@ -60,4 +62,25 @@ export function Media({ slot, file, size, alt, className, priority, ratio, fill 
       </div>
     </div>
   );
+}
+
+/**
+ * "Cutout" slots expect a transparent PNG. If the supplied image has a solid background
+ * (all four corners opaque), the frame gets `.is-opaque` and is styled as a rounded card instead
+ * of a floating character. Local images are same-origin, so the pixels can be read.
+ */
+function hasOpaqueCorners(img: HTMLImageElement): boolean {
+  try {
+    const c = document.createElement('canvas');
+    c.width = 16;
+    c.height = 16;
+    const ctx = c.getContext('2d', { willReadFrequently: true });
+    if (!ctx) return false;
+    ctx.drawImage(img, 0, 0, 16, 16);
+    const { data } = ctx.getImageData(0, 0, 16, 16);
+    const alpha = (x: number, y: number) => data[(y * 16 + x) * 4 + 3];
+    return [alpha(0, 0), alpha(15, 0), alpha(0, 15), alpha(15, 15)].every((a) => a > 240);
+  } catch {
+    return false;
+  }
 }
