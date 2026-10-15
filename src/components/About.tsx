@@ -9,7 +9,7 @@ import { useCart } from '../store/CartContext';
 
 /**
  * Reference "ABOUT FATNINJA": scrubbed headline, three character cards that fan out
- * (rotate/spread) as they scroll in, speech-bubble tags above them, then a second scrubbed statement.
+ * (rotate/spread) as they scroll in, speech-bubble tags above them.
  */
 export function About() {
   const { t, lang } = useLanguage();
@@ -102,7 +102,6 @@ export function About() {
           </article>
         ))}
       </div>
-      <ScrubHeading text={t.about.statement2} as="p" className="about__statement about__statement--2" />
     </section>
   );
 }

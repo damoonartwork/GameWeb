@@ -47,7 +47,7 @@ export type Dictionary = {
     prev: string;
     next: string;
   };
-  about: { label: string; statement: string; statement2: string; tags: string[] };
+  about: { label: string; statement: string; tags: string[] };
   digital: { label: string; title: string; text: string; bannerTitle: string; bannerText: string; bannerCta: string };
   budget: { label: string; title: string; text: string; upTo: string; million: string; alt: string };
   shop: {
@@ -65,10 +65,6 @@ export type Dictionary = {
     title: string;
     text: string;
     items: Titled[];
-    boxLabel: string;
-    boxEmpty: string;
-    copy: string;
-    copied: string;
   };
   roadmap: { label: string; title: string; phase: string; items: { title: string; points: string[] }[] };
   platforms: { label: string; title: string; text: string; items: { name: string; text: string; alt: string }[] };
@@ -138,7 +134,6 @@ const en: Dictionary = {
   about: {
     label: 'Why shop here',
     statement: 'A store built by players, for players — gear we would use ourselves.',
-    statement2: 'Every product is picked for how it plays, not just how it looks on a shelf.',
     tags: ['Best seller', 'Hot pick'],
   },
   digital: {
@@ -176,10 +171,6 @@ const en: Dictionary = {
       { title: 'Add to cart', text: 'Review your cart and quantities in one place.' },
       { title: 'Check out', text: 'Complete your order and get ready to play.' },
     ],
-    boxLabel: 'Questions before you buy? Copy our support address.',
-    boxEmpty: 'Support email coming soon',
-    copy: 'Copy',
-    copied: 'Copied!',
   },
   roadmap: {
     label: 'Your order',
@@ -286,7 +277,6 @@ const fa: Dictionary = {
   about: {
     label: 'چرا از ما بخرید',
     statement: 'فروشگاهی که گیمرها برای گیمرها ساخته‌اند؛ تجهیزاتی که خودمان هم استفاده می‌کنیم.',
-    statement2: 'هر محصول برای تجربه بازی انتخاب می‌شود، نه فقط برای ظاهرش در ویترین.',
     tags: ['پرفروش', 'پیشنهاد داغ'],
   },
   digital: {
@@ -324,10 +314,6 @@ const fa: Dictionary = {
       { title: 'به سبد اضافه کنید', text: 'سبد و تعدادها را یک‌جا بررسی کنید.' },
       { title: 'تسویه کنید', text: 'سفارش را نهایی کنید و آماده بازی شوید.' },
     ],
-    boxLabel: 'قبل از خرید سؤالی دارید؟ آدرس پشتیبانی را کپی کنید.',
-    boxEmpty: 'ایمیل پشتیبانی به‌زودی',
-    copy: 'کپی',
-    copied: 'کپی شد!',
   },
   roadmap: {
     label: 'سفارش شما',

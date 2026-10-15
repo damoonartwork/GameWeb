@@ -845,7 +845,7 @@ section:focus {
   position: relative;
   display: flex;
   justify-content: center;
-  margin: clamp(60px, 9vw, 120px) auto clamp(70px, 10vw, 130px);
+  margin: clamp(60px, 9vw, 120px) auto 0;
   max-width: 860px;
 }
 .fan__card {
@@ -1098,35 +1098,6 @@ section:focus {
   color: var(--text-soft);
   font-size: 0.95rem;
 }
-.steps__boxlabel {
-  margin: 56px auto 0;
-  text-align: center;
-  font-weight: 700;
-}
-.linkbox {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  max-width: 560px;
-  margin: 22px auto 0;
-  padding: 10px;
-  padding-inline-start: 22px;
-  border: 1.5px solid var(--line-strong);
-  border-radius: 14px;
-}
-.linkbox__value {
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  font-weight: 600;
-}
-.linkbox__value.is-empty {
-  color: var(--text-soft);
-  filter: blur(0.3px);
-}
-
 /* =========================================================================
    ROADMAP
    ========================================================================= */
@@ -2500,12 +2471,6 @@ button.round-lime:hover {
   }
   .hero__feature-text {
     font-size: 0.92rem;
-  }
-  .linkbox {
-    flex-direction: column;
-    align-items: stretch;
-    padding-inline-start: 10px;
-    text-align: center;
   }
 }
 

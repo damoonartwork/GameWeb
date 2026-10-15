@@ -6,7 +6,7 @@
 export const brand = {
   name: 'KAGE',
   nameFa: 'کاگه',
-  email: '', // support email, e.g. 'support@yourshop.com' (shown in the 3-steps copy box + footer)
+  email: '', // support email, e.g. 'support@yourshop.com' (shown in the footer)
   socials: [
     // { label: 'Instagram', href: 'https://instagram.com/...' },
     // { label: 'X', href: 'https://x.com/...' },
