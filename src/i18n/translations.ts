@@ -59,6 +59,8 @@ export type Dictionary = {
     upTo: string;
     empty: string;
     reset: string;
+    more: string;
+    less: string;
   };
   steps: {
     label: string;
@@ -161,6 +163,8 @@ const en: Dictionary = {
     upTo: 'Up to',
     empty: 'Nothing matches these filters yet.',
     reset: 'Clear filters',
+    more: 'Show more',
+    less: 'Show less',
   },
   steps: {
     label: 'How to buy',
@@ -304,6 +308,8 @@ const fa: Dictionary = {
     upTo: 'تا',
     empty: 'فعلاً محصولی با این فیلترها نیست.',
     reset: 'حذف فیلترها',
+    more: 'نمایش بیشتر',
+    less: 'نمایش کمتر',
   },
   steps: {
     label: 'نحوه خرید',

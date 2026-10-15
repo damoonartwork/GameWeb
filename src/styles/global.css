@@ -2031,6 +2031,36 @@ button.round-lime:hover {
   max-width: 1240px;
   margin-inline: auto;
 }
+.shop__more {
+  display: flex;
+  justify-content: center;
+  margin-top: 28px;
+}
+.shop__more-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 26px;
+  border-radius: 999px;
+  border: 1px solid rgb(218 255 18 / 0.5);
+  color: var(--text);
+  font-weight: 700;
+  transition: background-color 0.3s, color 0.3s;
+}
+.shop__more-btn:hover {
+  background: var(--lime);
+  color: var(--lime-ink);
+}
+.shop__more-arrow {
+  display: inline-block;
+  line-height: 1;
+  translate: 0 -3px;
+  transition: rotate 0.35s var(--ease-out);
+}
+.shop__more-arrow.is-up {
+  rotate: 180deg;
+  translate: 0 3px;
+}
 .shop__empty {
   display: grid;
   justify-items: center;
