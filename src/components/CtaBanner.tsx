@@ -47,7 +47,7 @@ export function CtaBanner() {
           </a>
         </div>
         <div className="banner__art">
-          <Media slot="cta" alt={t.cta.alt} className="media--cutout" />
+          <Media slot="cta" alt={t.cta.alt} className="media--cutout" fill />
         </div>
       </div>
     </section>

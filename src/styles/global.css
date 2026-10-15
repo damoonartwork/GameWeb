@@ -1432,15 +1432,17 @@ section:focus {
    ========================================================================= */
 .cta {
   overflow-x: clip;
-  padding-block: clamp(70px, 10vh, 120px) clamp(60px, 8vh, 100px);
+  /* extra room above: the artwork rises out of the top of the banner */
+  padding-block: clamp(170px, 18vw, 260px) clamp(60px, 8vh, 100px);
 }
 .banner {
   position: relative;
   max-width: 1100px;
   margin-inline: auto;
-  min-height: 340px;
+  /* same box in both languages: fixed min-height, copy column holds the text */
+  min-height: clamp(320px, 30vw, 380px);
   display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 44%) minmax(0, 1fr);
   align-items: center;
   padding: clamp(32px, 4.5vw, 60px);
   border-radius: 24px;
@@ -1464,20 +1466,28 @@ section:focus {
   z-index: 2;
 }
 .banner__title {
-  font-size: clamp(1.9rem, 3.4vw, 3.3rem);
+  font-size: clamp(1.4rem, 2.2vw, 2.2rem);
 }
 :root[lang='fa'] .banner__title {
-  font-size: clamp(1.7rem, 3vw, 2.8rem);
+  font-size: clamp(1.6rem, 2.6vw, 2.5rem);
 }
 .banner__text {
   margin: 16px 0 26px;
   max-width: 38ch;
 }
 .banner__art {
-  position: relative;
-  align-self: end;
-  margin-top: -110px;
-  margin-bottom: calc(-1 * clamp(32px, 4.5vw, 60px));
+  /* sits on the banner's bottom edge on the reading-end side and is taller than the banner,
+     so the artwork breaks out above its top edge */
+  position: absolute;
+  z-index: 1;
+  bottom: 0;
+  inset-inline-end: 0;
+  width: 60%;
+  aspect-ratio: 4 / 3; /* matches cta-characters (1600×1200): sized by width, rises above the top edge */
+  pointer-events: none;
+}
+.banner__art .media--fill {
+  height: 100%;
 }
 
 /* =========================================================================
@@ -2464,9 +2474,16 @@ button.round-lime:hover {
     padding-bottom: 0;
   }
   .banner__art {
-    margin-top: 10px;
-    width: min(90%, 420px);
+    position: relative;
+    inset: auto;
+    width: min(100%, 460px);
+    height: auto;
+    margin-top: 16px;
     justify-self: center;
+  }
+  .banner__art .media--fill {
+    height: auto;
+    aspect-ratio: 4 / 3;
   }
   .footer__cols {
     grid-template-columns: 1fr 1fr;
