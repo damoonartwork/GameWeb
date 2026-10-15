@@ -1235,18 +1235,27 @@ section:focus {
    CONTROLLER SPIN (pinned, scroll-scrubbed frame sequence)
    ========================================================================= */
 .spin {
+  /* tall, unpinned: the controller travels down through it while the page scrolls */
   position: relative;
-  height: 100svh;
-  min-height: 560px;
+  height: 170svh;
+  min-height: 900px;
+  overflow: hidden;
+}
+.spin__move {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
   display: grid;
   place-items: center;
-  overflow: hidden;
+  padding-block: 6vh;
+  will-change: transform;
 }
 .spin__glow {
   position: absolute;
   left: 50%;
   top: 50%;
-  width: min(70vw, 760px);
+  width: min(56vw, 560px);
   aspect-ratio: 1;
   translate: -50% -50%;
   border-radius: 50%;
@@ -1256,9 +1265,8 @@ section:focus {
 }
 .spin__float {
   position: relative;
-  width: min(78vw, 900px);
+  width: min(62vw, 620px);
   aspect-ratio: 900 / 732;
-  max-height: 78svh;
   animation: spin-float 4.5s ease-in-out infinite;
 }
 .spin__canvas {

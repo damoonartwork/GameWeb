@@ -1,16 +1,16 @@
 import { useEffect, useRef } from 'react';
 import { useLanguage } from '../i18n/LanguageContext';
 import { useGsap } from '../hooks/useGsap';
-import { prefersReducedMotion, ScrollTrigger } from '../lib/gsap';
+import { gsap, prefersReducedMotion } from '../lib/gsap';
 
 /** Frame sequence made from the supplied green-screen video (keyed to transparent WebP). */
 const FRAME_COUNT = 174;
 const frameUrl = (i: number) => `${import.meta.env.BASE_URL}media/dualsense/frame-${String(i + 1).padStart(3, '0')}.webp`;
 
 /**
- * A floating DualSense in the middle of a pinned, full-screen section. Scrolling down turns it
- * from its back to its front (scroll up reverses it): each scroll position maps to one frame,
- * drawn on a canvas, so it scrubs perfectly smoothly in both directions.
+ * A floating DualSense that travels down through a tall section while the page keeps scrolling
+ * (no pin): as it descends it turns from its back to its front (scroll up reverses both). Each
+ * scroll position maps to one frame, drawn on a canvas, so it scrubs smoothly in both directions.
  * Frames only start downloading when the section gets close to the viewport.
  */
 export function ControllerSpin() {
@@ -84,21 +84,31 @@ export function ControllerSpin() {
         draw(FRAME_COUNT - 1);
         return;
       }
-      ScrollTrigger.create({
-        trigger: root.current,
-        start: 'top top',
-        end: '+=180%',
-        pin: true,
-        scrub: true,
-        anticipatePin: 1,
-        onUpdate: (self) => {
-          const i = Math.round(self.progress * (FRAME_COUNT - 1));
-          if (i !== current.current) {
-            current.current = i;
-            draw(i);
-          }
+      const section = root.current!;
+      const mover = section.querySelector<HTMLElement>('.spin__move')!;
+      // Descend from the top of the section to its bottom while the section crosses the screen.
+      gsap.fromTo(
+        mover,
+        { y: 0 },
+        {
+          y: () => section.clientHeight - mover.offsetHeight,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: section,
+            start: 'top 75%',
+            end: 'bottom 85%',
+            scrub: 0.4,
+            invalidateOnRefresh: true,
+            onUpdate: (self) => {
+              const i = Math.round(self.progress * (FRAME_COUNT - 1));
+              if (i !== current.current) {
+                current.current = i;
+                draw(i);
+              }
+            },
+          },
         },
-      });
+      );
     },
     [lang],
     root,
@@ -106,9 +116,11 @@ export function ControllerSpin() {
 
   return (
     <section ref={root} className="spin" aria-label={t.a11y.spin}>
-      <div className="spin__glow" aria-hidden="true" />
-      <div className="spin__float">
-        <canvas ref={canvas} className="spin__canvas" role="img" aria-label={t.a11y.spin} />
+      <div className="spin__move">
+        <div className="spin__glow" aria-hidden="true" />
+        <div className="spin__float">
+          <canvas ref={canvas} className="spin__canvas" role="img" aria-label={t.a11y.spin} />
+        </div>
       </div>
     </section>
   );

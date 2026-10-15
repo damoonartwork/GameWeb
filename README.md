@@ -43,7 +43,7 @@ The design is rebuilt from a screen recording of the reference (`fatninja-mamun.
 | Stat circles | enter viewport | Character rises; circles grow out with back-ease; values scramble |
 | Steps | enter viewport | Cards rise with a stagger, then the link box. The copy button copies the email from brand.ts |
 | Roadmap | scroll (scrub) | Track fills; each phase brightens from 15% opacity; its badge turns lime at the middle of the screen |
-| Controller spin | pinned, scrub (+180%) | DualSense frame sequence (174 transparent WebP frames from the supplied video) drawn on a canvas: back → front on scroll down, reverse on scroll up, gentle float + lime glow; frames lazy-load near the section |
+| Controller spin | scroll (scrub, no pin) | DualSense frame sequence (174 transparent WebP frames from the supplied video) drawn on a canvas, descending through a tall section while it turns back → front on scroll down, reverse on scroll up, gentle float + lime glow; frames lazy-load near the section |
 | FAQ | click | Height animates open; the lime + rotates to × |
 | CTA banner | enter viewport | Banner rises and scales in; characters rise; the light streak drifts |
 | Hero depth | pointer | Globe and card follow the cursor at different depths (desktop only) |
