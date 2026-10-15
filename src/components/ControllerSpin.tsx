@@ -9,9 +9,8 @@ const frameUrl = (i: number) => `${import.meta.env.BASE_URL}media/dualsense/fram
 
 /**
  * A floating DualSense that travels down through a tall section while the page keeps scrolling
- * (no pin). It stays near the middle of the screen, drifting slowly downward, and turns from its
- * back to its front over the whole time it is in view — the turn only completes as the section
- * leaves. Scroll up reverses both. Position and frame ease toward the scroll target every tick.
+ * (no pin): as it descends it turns from its back to its front (scroll up reverses both). Each
+ * scroll position maps to one frame, drawn on a canvas, so it scrubs smoothly in both directions.
  * Frames only start downloading when the section gets close to the viewport.
  */
 export function ControllerSpin() {
@@ -87,62 +86,41 @@ export function ControllerSpin() {
       }
       const section = root.current!;
       const mover = section.querySelector<HTMLElement>('.spin__move')!;
-      const clamp = gsap.utils.clamp(0, 1);
-      // targets come from the scroll position; the ticker eases toward them for a soft, smooth follow
-      let targetY = 0;
-      let targetR = 0;
-      let y = 0;
-      let r = 0;
-
-      const measure = () => {
-        const vh = window.innerHeight;
-        const rect = section.getBoundingClientRect();
-        const H = section.clientHeight;
-        const ch = mover.offsetHeight;
-        // how far the section has travelled through the viewport (0 = just entering, 1 = just left)
-        const p = clamp((vh - rect.top) / (vh + H));
-        // keep the controller near the middle of the screen, drifting slowly downward (42% → 58%),
-        // but never outside its own section
-        const screenCenter = vh * (0.42 + 0.16 * p);
-        targetY = gsap.utils.clamp(0, Math.max(0, H - ch), screenCenter - rect.top - ch / 2);
-        // rotate while it travels: starts when it reaches the middle, ends as the section leaves
-        const startTop = vh * 0.42 - ch / 2; // rect.top when travel starts
-        const endTop = -(H - vh * 0.25); // rect.top when the section is almost gone
-        targetR = clamp((startTop - rect.top) / (startTop - endTop));
-      };
-
-      const tick = () => {
-        y += (targetY - y) * 0.16;
-        r += (targetR - r) * 0.16;
-        mover.style.transform = `translate3d(0, ${y.toFixed(1)}px, 0)`;
-        const i = Math.round(r * (FRAME_COUNT - 1));
-        if (i !== current.current) {
-          current.current = i;
-          draw(i);
-        }
-      };
-      const snap = () => {
-        measure();
-        y = targetY;
-        r = targetR;
-        tick();
-      };
-
-      const st = ScrollTrigger.create({
+      // Descend from the top of the section to its bottom while the section crosses the screen.
+      gsap.fromTo(
+        mover,
+        { y: 0 },
+        {
+          y: () => section.clientHeight - mover.offsetHeight,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: section,
+            start: 'top 75%',
+            end: 'bottom 85%',
+            scrub: 0.4,
+            invalidateOnRefresh: true,
+          },
+        },
+      );
+      // Rotation runs over a longer range than the descent, so the turn keeps going after the
+      // controller has settled and only completes as the section is leaving the screen.
+      ScrollTrigger.create({
         trigger: section,
-        start: 'top bottom',
-        end: 'bottom top',
-        onUpdate: measure,
-        onToggle: (self) => (self.isActive ? gsap.ticker.add(tick) : gsap.ticker.remove(tick)),
-        onRefresh: snap,
+        start: 'top 75%',
+        end: 'bottom 55%', // later than the descent (bottom 85%), while the controller is still on screen
+        onUpdate: (self) => {
+          const i = Math.round(self.progress * (FRAME_COUNT - 1));
+          if (i !== current.current) {
+            current.current = i;
+            draw(i);
+          }
+        },
       });
-      snap();
-      if (st.isActive) gsap.ticker.add(tick);
-      return () => gsap.ticker.remove(tick);
     },
     [lang],
     root,
   );
+
   return (
     <section ref={root} className="spin" aria-label={t.a11y.spin}>
       <div className="spin__move">

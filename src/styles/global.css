@@ -1242,8 +1242,8 @@ section:focus {
 .spin {
   /* tall, unpinned: the controller travels down through it while the page scrolls */
   position: relative;
-  height: 210svh;
-  min-height: 1100px;
+  height: 170svh;
+  min-height: 900px;
   overflow: hidden;
 }
 .spin__move {
