@@ -1881,6 +1881,9 @@ button.round-lime:hover {
   gap: 18px;
   rotate: -28deg;
   pointer-events: none;
+  /* muted so the columns stay in the background behind the copy box */
+  opacity: 0.45;
+  filter: saturate(0.6) blur(1.5px);
 }
 [dir='rtl'] .gift-banner__cards {
   inset: -260px -6% -260px 34%;
@@ -2478,7 +2481,7 @@ button.round-lime:hover {
     justify-content: center;
   }
   .gift-banner__cards {
-    opacity: 0.6;
+    opacity: 0.35;
   }
   .pcard {
     padding: 10px 10px 12px;
