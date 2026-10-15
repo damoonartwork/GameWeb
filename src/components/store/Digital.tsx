@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useMemo, useRef } from 'react';
 import { digitalTiles, formatPrice, productById } from '../../config/store';
 import { useLanguage } from '../../i18n/LanguageContext';
 import { useGsap } from '../../hooks/useGsap';
@@ -32,6 +32,20 @@ export function Digital() {
   );
   useTilt(root, '.gift', [lang], 10);
 
+  // Banner: 7 tilted columns, each holding all gift cards in its own random order.
+  const columns = useMemo(
+    () =>
+      Array.from({ length: 7 }, () => {
+        const c = [...digitalTiles];
+        for (let i = c.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [c[i], c[j]] = [c[j], c[i]];
+        }
+        return c;
+      }),
+    [],
+  );
+
   return (
     <section ref={root} id="digital" className="digital section" tabIndex={-1} aria-labelledby="digital-title">
       <SectionHead id="digital-title" label={t.digital.label} title={t.digital.title} text={t.digital.text} scrub />
@@ -62,17 +76,24 @@ export function Digital() {
       </ul>
       <div className="gift-banner">
         <div className="gift-banner__cards" aria-hidden="true">
-          {digitalTiles.concat(digitalTiles).map(({ id, color }, i) => {
-            // Same artwork as the tiles above (gift-*.png); just the colour block until it exists.
-            const p = productById(id);
-            const url = p ? fileUrl(p.image) : null;
-            return (
-              <span key={i} className="gift-banner__card" style={{ ['--gift' as string]: color }} data-id={id}>
-                {url && <img src={url} alt="" loading="lazy" decoding="async" draggable={false} />}
-                {p && <span className="gift-banner__label">{p.name[lang]}</span>}
-              </span>
-            );
-          })}
+          {columns.map((col, c) => (
+            <div key={c} className={`gift-banner__col gift-banner__col--${c % 2 ? 'down' : 'up'}`}>
+              {/* the column's cards twice, so the -50% loop is seamless */}
+              <div className="gift-banner__strip" style={{ animationDuration: `${22 + (c % 3) * 4}s` }}>
+                {col.concat(col).map(({ id, color }, i) => {
+                  // Same artwork as the tiles above (gift-*.png); just the colour block until it exists.
+                  const p = productById(id);
+                  const url = p ? fileUrl(p.image) : null;
+                  return (
+                    <span key={i} className="gift-banner__card" style={{ ['--gift' as string]: color }} data-id={id}>
+                      {url && <img src={url} alt="" loading="lazy" decoding="async" draggable={false} />}
+                      {p && <span className="gift-banner__label">{p.name[lang]}</span>}
+                    </span>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
         </div>
         <div className="gift-banner__copy">
           <h3 className="display">{t.digital.bannerTitle}</h3>

@@ -1875,26 +1875,57 @@ button.round-lime:hover {
 }
 .gift-banner__cards {
   position: absolute;
-  inset: -40px 30% -40px -10%;
+  inset: -260px 34% -260px -6%;
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 16px;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 18px;
   rotate: -28deg;
   pointer-events: none;
 }
 [dir='rtl'] .gift-banner__cards {
-  inset: -40px -10% -40px 30%;
+  inset: -260px -6% -260px 34%;
   rotate: 28deg;
+}
+.gift-banner__col {
+  position: relative;
+  overflow: visible;
+}
+/* each strip = the column's cards twice; moving it by -50% lands on an identical frame */
+.gift-banner__strip {
+  display: flex;
+  flex-direction: column;
+  will-change: transform;
+  animation: gift-up 24s linear infinite;
+}
+.gift-banner__col--down .gift-banner__strip {
+  animation-name: gift-down;
+}
+@keyframes gift-up {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-50%);
+  }
+}
+@keyframes gift-down {
+  from {
+    transform: translateY(-50%);
+  }
+  to {
+    transform: translateY(0);
+  }
 }
 .gift-banner__card {
   position: relative;
   display: block;
   overflow: hidden;
+  flex: none;
   height: 130px;
+  margin-bottom: 18px;
   border-radius: 12px;
   background: linear-gradient(180deg, var(--gift) 62%, #fff 62%);
   box-shadow: 0 10px 20px -10px rgb(0 0 0 / 0.5);
-  animation: gift-drift 9s ease-in-out infinite alternate;
 }
 .gift-banner__card img {
   position: absolute;
@@ -1918,15 +1949,6 @@ button.round-lime:hover {
   line-height: 1.2;
   color: var(--lime-ink);
   overflow: hidden;
-}
-.gift-banner__card:nth-child(even) {
-  margin-top: 60px;
-  animation-delay: -4s;
-}
-@keyframes gift-drift {
-  to {
-    transform: translateY(-26px);
-  }
 }
 .gift-banner__copy {
   position: relative;
