@@ -6,11 +6,11 @@
 export const brand = {
   name: 'KAGE',
   nameFa: 'کاگه',
-  email: '', // e.g. 'hello@yourstudio.com'
+  email: '', // support email, e.g. 'support@yourshop.com' (shown in the 3-steps copy box + footer)
   socials: [
     // { label: 'Instagram', href: 'https://instagram.com/...' },
     // { label: 'X', href: 'https://x.com/...' },
   ] as { label: string; href: string }[],
-  /** Optional link for the main call to action (falls back to the email, then the projects section). */
+  /** Optional link for the closing banner button (falls back to the shop section). */
   ctaHref: '',
 };

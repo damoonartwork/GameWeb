@@ -34,19 +34,10 @@ export const assetSlots = {
   logo: { file: 'logo', ratio: 3, size: 'SVG, ~600×200' },
   // Hero
   heroCharacter: { file: 'hero-character', ratio: 4 / 5, size: '1400×1750 transparent PNG/WebP' },
-  heroCard: { file: 'hero-card', ratio: 9 / 10, size: '900×1000' },
   heroGround: { file: 'hero-ground', ratio: 5, size: '2560×512 transparent PNG/WebP' },
-  // About — fanned character cards
-  about1: { file: 'about-card-01', ratio: 4 / 5, size: '800×1000' },
-  about2: { file: 'about-card-02', ratio: 4 / 5, size: '800×1000' },
-  about3: { file: 'about-card-03', ratio: 4 / 5, size: '800×1000' },
-  // Features bento
-  feature1: { file: 'feature-01', ratio: 1, size: '1000×1000 transparent PNG/WebP' },
-  feature2: { file: 'feature-02', ratio: 1, size: '1000×1000 transparent PNG/WebP' },
-  feature3: { file: 'feature-03', ratio: 1, size: '1000×1000 transparent PNG/WebP' },
-  // Signature character with the four stat circles
+  // Budget section character (between the four budget circles)
   signature: { file: 'signature-character', ratio: 3 / 4, size: '1200×1600 transparent PNG/WebP' },
-  // Team / cast
+  // Platforms cards
   team1: { file: 'team-01', ratio: 9 / 10, size: '900×1000' },
   team2: { file: 'team-02', ratio: 9 / 10, size: '900×1000' },
   team3: { file: 'team-03', ratio: 9 / 10, size: '900×1000' },
@@ -64,9 +55,14 @@ export const assetSlots = {
 
 export type AssetKey = keyof typeof assetSlots;
 
+/** Look up any image in src/assets/images by basename (used for catalogue images: product-*, cat-*, gift-*). */
+export function fileUrl(basename: string): string | null {
+  return byBasename[basename] ?? null;
+}
+
 export function assetUrl(key: AssetKey): string | null {
   return byBasename[assetSlots[key].file] ?? null;
 }
 
 /** Hero assets the preloader waits for. */
-export const criticalAssets: AssetKey[] = ['heroCharacter', 'heroCard', 'heroGround'];
+export const criticalAssets: AssetKey[] = ['heroCharacter', 'heroGround'];

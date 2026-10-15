@@ -3,7 +3,6 @@ import { About } from './components/About';
 import { BackToTop } from './components/BackToTop';
 import { CtaBanner } from './components/CtaBanner';
 import { Faq } from './components/Faq';
-import { Features } from './components/Features';
 import { FontLab } from './components/FontLab';
 import { Footer } from './components/Footer';
 import { GridLines } from './components/GridLines';
@@ -11,9 +10,14 @@ import { Hero } from './components/Hero';
 import { Navigation } from './components/Navigation';
 import { Roadmap } from './components/Roadmap';
 import { Landscape } from './components/Scenery';
-import { Signature } from './components/Signature';
 import { Steps } from './components/Steps';
-import { Team } from './components/Team';
+import { Budget } from './components/store/Budget';
+import { CartDrawer } from './components/store/CartDrawer';
+import { Categories } from './components/store/Categories';
+import { Deals } from './components/store/Deals';
+import { Digital } from './components/store/Digital';
+import { Platforms } from './components/store/Platforms';
+import { Shop } from './components/store/Shop';
 import { assetUrl, criticalAssets } from './config/assets';
 import { ScrollTrigger } from './lib/gsap';
 import { initSmoothScroll } from './lib/scroll';
@@ -65,18 +69,22 @@ export function App() {
       <Navigation introReady={introReady} />
       <main id="main" tabIndex={-1}>
         <Hero introReady={introReady} />
+        <Categories />
+        <Deals />
+        <Digital />
         <About />
-        <Features />
-        <Signature />
+        <Budget />
+        <Shop />
         <Steps />
         <Roadmap />
         <Landscape />
-        <Team />
+        <Platforms />
         <Faq />
         <CtaBanner />
       </main>
       <Footer />
       <BackToTop />
+      <CartDrawer />
       {import.meta.env.DEV && <FontLab />}
     </>
   );

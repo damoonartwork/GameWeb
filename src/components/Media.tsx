@@ -1,9 +1,13 @@
 import { useState, type CSSProperties } from 'react';
-import { assetSlots, assetUrl, type AssetKey } from '../config/assets';
+import { assetSlots, assetUrl, fileUrl, type AssetKey } from '../config/assets';
 import { useLanguage } from '../i18n/LanguageContext';
 
 type Props = {
-  slot: AssetKey;
+  /** A named slot from config/assets.ts … */
+  slot?: AssetKey;
+  /** … or any basename in src/assets/images (catalogue images), with its ratio + recommended size. */
+  file?: string;
+  size?: string;
   alt: string;
   className?: string;
   /** Above-the-fold images: eager + high fetch priority. Everything else lazy-loads. */
@@ -19,10 +23,10 @@ type Props = {
  * Structure: .media (mask/clip target) > .media__inner (scale/parallax target) > img | placeholder.
  * A missing or failing file renders a labelled placeholder — never a broken layout.
  */
-export function Media({ slot, alt, className, priority, ratio, fill }: Props) {
+export function Media({ slot, file, size, alt, className, priority, ratio, fill }: Props) {
   const { t } = useLanguage();
-  const def = assetSlots[slot];
-  const url = assetUrl(slot);
+  const def = slot ? assetSlots[slot] : { file: file ?? '', ratio: ratio ?? 1, size: size ?? '' };
+  const url = slot ? assetUrl(slot) : fileUrl(def.file);
   const [failed, setFailed] = useState(false);
   const r = ratio ?? def.ratio;
   const style: CSSProperties | undefined = fill ? undefined : { aspectRatio: String(r) };

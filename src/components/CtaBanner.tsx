@@ -11,7 +11,7 @@ export function CtaBanner() {
   const { t, lang } = useLanguage();
   const root = useRef<HTMLElement>(null);
   const onAnchor = useAnchorClick();
-  const href = brand.ctaHref || (brand.email ? `mailto:${brand.email}` : '#features');
+  const href = brand.ctaHref || '#shop';
 
   useGsap(
     () => {

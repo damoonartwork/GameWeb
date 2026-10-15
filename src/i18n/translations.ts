@@ -1,7 +1,7 @@
 /**
- * All interface copy lives here. Components never hardcode visible text.
- * Starter copy only: no fabricated clients, awards, statistics, team members or game titles.
- * Everything marked "placeholder" in a comment is meant to be replaced with real content.
+ * All interface copy lives here (product names/prices live in config/store.ts).
+ * Starter copy only: no invented reviews, statistics, delivery times or guarantees.
+ * FAQ answers are written as templates — replace them with your real policies.
  */
 
 export type Lang = 'en' | 'fa';
@@ -11,11 +11,12 @@ type Titled = { title: string; text: string };
 export type Dictionary = {
   meta: { title: string; description: string };
   nav: {
-    about: string;
-    features: string;
-    process: string;
+    categories: string;
+    deals: string;
+    digital: string;
+    shop: string;
     faq: string;
-    cta: string;
+    cart: string;
     menu: string;
     close: string;
     skip: string;
@@ -24,32 +25,40 @@ export type Dictionary = {
     titleLines: string[];
     sub: string;
     cta: string;
-    card: { label: string; value: string; open: string; alt: string };
-    feature: { name: string; text: string };
-    /** value is animated with the scramble effect; keep it short */
+    cardLabel: string;
+    featureText: string;
     stats: { value: string; label: string }[];
     alt: string;
   };
-  about: {
-    label: string;
-    statement: string;
-    statement2: string;
-    tags: string[];
-    cards: { label: string; value: string; alt: string }[];
+  product: {
+    addToCart: string;
+    added: string;
+    currency: string;
+    off: string;
+    from: string;
   };
-  features: {
+  categories: { label: string; title: string; text: string };
+  deals: {
+    label: string;
+    title: string;
+    viewAll: string;
+    endsIn: string;
+    units: { h: string; m: string; s: string };
+    prev: string;
+    next: string;
+  };
+  about: { label: string; statement: string; statement2: string; tags: string[] };
+  digital: { label: string; title: string; text: string; bannerTitle: string; bannerText: string; bannerCta: string };
+  budget: { label: string; title: string; text: string; upTo: string; million: string; alt: string };
+  shop: {
     label: string;
     title: string;
     text: string;
-    items: (Titled & { alt: string })[];
-    cardCta: Titled & { button: string };
-  };
-  signature: {
-    label: string;
-    title: string;
-    text: string;
-    stats: { value: string; label: string }[];
-    alt: string;
+    all: string;
+    anyPrice: string;
+    upTo: string;
+    empty: string;
+    reset: string;
   };
   steps: {
     label: string;
@@ -61,29 +70,26 @@ export type Dictionary = {
     copy: string;
     copied: string;
   };
-  roadmap: {
-    label: string;
-    title: string;
-    phase: string;
-    items: { title: string; points: string[] }[];
-  };
-  team: {
-    label: string;
-    title: string;
-    text: string;
-    members: { name: string; role: string; alt: string }[];
-  };
-  faq: {
-    label: string;
-    title: string;
-    text: string;
-    items: { q: string; a: string }[];
-  };
+  roadmap: { label: string; title: string; phase: string; items: { title: string; points: string[] }[] };
+  platforms: { label: string; title: string; text: string; items: { name: string; text: string; alt: string }[] };
+  faq: { label: string; title: string; text: string; items: { q: string; a: string }[] };
   cta: { label: string; title: string; text: string; button: string; alt: string };
+  cart: {
+    title: string;
+    empty: string;
+    subtotal: string;
+    checkout: string;
+    checkoutNote: string;
+    remove: string;
+    increase: string;
+    decrease: string;
+    close: string;
+    browse: string;
+  };
   footer: {
     tagline: string;
-    studio: string;
-    quick: string;
+    shop: string;
+    help: string;
     language: string;
     rights: string;
     contactPending: string;
@@ -93,130 +99,145 @@ export type Dictionary = {
 };
 
 const en: Dictionary = {
-  meta: {
-    title: 'Gaming Creative Studio',
-    description: 'Characters, worlds and campaigns for games.',
-  },
+  meta: { title: 'Gaming Store', description: 'Consoles, controllers, games, accessories and gift cards.' },
   nav: {
-    about: 'About',
-    features: 'What we make',
-    process: 'Process',
+    categories: 'Categories',
+    deals: 'Deals',
+    digital: 'Gift cards',
+    shop: 'Shop',
     faq: 'FAQ',
-    cta: 'Start a project',
+    cart: 'Cart',
     menu: 'Menu',
     close: 'Close',
     skip: 'Skip to content',
   },
   hero: {
-    titleLines: ['Unmask the', 'future of play'],
-    sub: 'We design characters, worlds and campaigns that pull players straight into the game.',
-    cta: 'Explore the work',
-    card: { label: 'Power level', value: '9.0/10', open: 'Open character', alt: 'Featured character card' },
-    feature: { name: 'Hero #001', text: 'Your featured character goes here — one line of story to hook the player.' },
+    titleLines: ['Level up', 'your gear'],
+    sub: 'Consoles, controllers, games, accessories and gift cards — everything a player needs, in one place.',
+    cta: 'Shop now',
+    cardLabel: 'Price',
+    featureText: 'Our featured pick this week — ready to ship to your setup.',
     stats: [
-      { value: '05+', label: 'Featured projects on show' },
-      { value: '02', label: 'Languages, one experience' },
-      { value: '100%', label: 'Original artwork' },
+      { value: 'PS5', label: 'PlayStation gear & games' },
+      { value: 'XBOX', label: 'Xbox consoles & Game Pass' },
+      { value: 'PC', label: 'Gift cards & accessories' },
     ],
-    alt: 'Main hero character',
+    alt: 'Hero character',
+  },
+  product: { addToCart: 'Add to cart', added: 'Added!', currency: 'Toman', off: 'off', from: 'from' },
+  categories: { label: 'Browse', title: 'Shop by category', text: 'Pick a category to filter the shop below.' },
+  deals: {
+    label: 'Limited time',
+    title: 'Flash deals',
+    viewAll: 'View all products',
+    endsIn: 'Ends in',
+    units: { h: 'h', m: 'm', s: 's' },
+    prev: 'Previous',
+    next: 'Next',
   },
   about: {
-    label: 'About us',
-    statement: 'We are a creative studio building characters and worlds for games.',
-    statement2: 'Every character is crafted with its own story, style and hidden power.',
-    tags: ['Character #01', 'Character #02'],
-    cards: [
-      { label: 'Class', value: 'Scout', alt: 'Character card one' },
-      { label: 'Class', value: 'Tank', alt: 'Character card two' },
-      { label: 'Class', value: 'Rogue', alt: 'Character card three' },
-    ],
+    label: 'Why shop here',
+    statement: 'A store built by players, for players — gear we would use ourselves.',
+    statement2: 'Every product is picked for how it plays, not just how it looks on a shelf.',
+    tags: ['Best seller', 'Hot pick'],
   },
-  features: {
-    label: 'What we make',
-    title: 'Unlock the craft',
-    text: 'A full creative pipeline built for games — from first sketch to launch day.',
-    items: [
-      { title: 'Characters with soul', text: 'Heroes and villains designed from silhouette to final render.', alt: 'Character design sample' },
-      { title: 'Game artwork & key art', text: 'Worlds, environments and launch visuals that stop the scroll.', alt: 'Game artwork sample' },
-      { title: 'Gaming branding', text: 'Logos, identities and visual systems that play as hard as the game.', alt: 'Gaming branding sample' },
-    ],
-    cardCta: {
-      title: 'Ready to join the clan?',
-      text: 'Bring us your game, character or launch — we will build the world around it.',
-      button: 'Start a project',
-    },
+  digital: {
+    label: 'Digital',
+    title: 'Gift cards & subscriptions',
+    text: 'PlayStation Plus, Game Pass, Steam and more — add any card to your cart.',
+    bannerTitle: 'All gift cards in one place',
+    bannerText: 'Top up your wallet or gift a subscription.',
+    bannerCta: 'View & buy',
   },
-  signature: {
-    label: 'Signature',
-    title: 'The shadow craft',
-    text: 'Every project blends four disciplines into one recognisable style.',
-    stats: [
-      { value: '2D', label: 'Illustration' },
-      { value: '3D', label: 'Renders' },
-      { value: 'UI', label: 'Game interfaces' },
-      { value: 'FX', label: 'Motion & effects' },
-    ],
-    alt: 'Signature character',
+  budget: {
+    label: 'Your budget',
+    title: 'Shop by budget',
+    text: 'Pick a ceiling and we will show what fits.',
+    upTo: 'Up to',
+    million: 'million',
+    alt: 'Budget character',
+  },
+  shop: {
+    label: 'Shop',
+    title: 'All products',
+    text: 'Filter by category or budget.',
+    all: 'All',
+    anyPrice: 'Any price',
+    upTo: 'Up to',
+    empty: 'Nothing matches these filters yet.',
+    reset: 'Clear filters',
   },
   steps: {
-    label: 'How it works',
-    title: 'Start your project in 3 steps',
-    text: 'A simple, transparent way to go from idea to playable art.',
+    label: 'How to buy',
+    title: 'Order in 3 steps',
+    text: 'Simple from browsing to unboxing.',
     items: [
-      { title: 'Share your idea', text: 'Tell us about your game, character or campaign.' },
-      { title: 'Design & iterate', text: 'We sketch, refine and polish together with you.' },
-      { title: 'Launch together', text: 'Final assets delivered, ready for players.' },
+      { title: 'Pick your gear', text: 'Browse categories, deals and gift cards.' },
+      { title: 'Add to cart', text: 'Review your cart and quantities in one place.' },
+      { title: 'Check out', text: 'Complete your order and get ready to play.' },
     ],
-    boxLabel: 'Grab our address and start your adventure in the shadows!',
-    boxEmpty: 'Contact email coming soon',
+    boxLabel: 'Questions before you buy? Copy our support address.',
+    boxEmpty: 'Support email coming soon',
     copy: 'Copy',
     copied: 'Copied!',
   },
   roadmap: {
-    label: 'Process',
-    title: 'From sketch to launch',
-    phase: 'Phase',
+    label: 'Your order',
+    title: 'From cart to controller',
+    phase: 'Step',
     items: [
-      { title: 'Concept', points: ['Brief, references and goals', 'Mood boards and direction', 'First silhouettes'] },
-      { title: 'Character design', points: ['Turnarounds and expressions', 'Colour and costume passes', 'Signature details'] },
-      { title: 'World building', points: ['Environments and props', 'Lighting and atmosphere', 'Key art compositions'] },
-      { title: 'Production', points: ['Final renders and assets', 'Brand and UI elements', 'Motion and effects'] },
-      { title: 'Launch', points: ['Campaign visuals', 'Web and social formats', 'Support after release'] },
+      { title: 'Order placed', points: ['Cart confirmed', 'Order summary shown', 'Confirmation sent'] },
+      { title: 'Checked & packed', points: ['Item and accessories checked', 'Safely packed', 'Ready to ship'] },
+      { title: 'On the way', points: ['Handed to the courier', 'Tracking details shared', 'Digital codes delivered online'] },
+      { title: 'Delivered', points: ['Unbox and set up', 'Keep your invoice', 'Contact support anytime'] },
+      { title: 'Game on', points: ['Download your games', 'Activate subscriptions', 'Come back for the next upgrade'] },
     ],
   },
-  team: {
-    label: 'The cast',
-    title: 'Meet the crew',
-    text: 'The characters behind the work — replace them with your own crew.',
-    members: [
-      { name: 'Character 01', role: 'Role or title', alt: 'Crew portrait one' },
-      { name: 'Character 02', role: 'Role or title', alt: 'Crew portrait two' },
-      { name: 'Character 03', role: 'Role or title', alt: 'Crew portrait three' },
+  platforms: {
+    label: 'Platforms',
+    title: 'Every platform covered',
+    text: 'Replace these with your own platform or brand images.',
+    items: [
+      { name: 'PlayStation', text: 'Consoles, DualSense, PS Plus', alt: 'PlayStation' },
+      { name: 'Xbox', text: 'Series X|S, controllers, Game Pass', alt: 'Xbox' },
+      { name: 'Nintendo', text: 'Switch, Joy-Con, eShop', alt: 'Nintendo' },
     ],
   },
   faq: {
     label: 'FAQ',
     title: 'Frequently asked questions',
-    text: 'Here are some of the most common questions.',
+    text: 'Edit these answers to match your store policies.',
     items: [
-      { q: 'What do you create?', a: 'Characters, game artwork, key art, gaming brand identities and digital experiences for games.' },
-      { q: 'How do I start a project?', a: 'Send us a short description of your idea. We reply with questions and a proposed plan.' },
-      { q: 'Do you work in 2D and 3D?', a: 'Yes — the style is chosen per project to fit the game, the team and the platform.' },
-      { q: 'How long does a project take?', a: 'It depends on the scope. After the first conversation you get a clear timeline before any work starts.' },
-      { q: 'Can you handle the launch campaign too?', a: 'Yes. We can extend the artwork into campaign visuals, web and social formats.' },
+      { q: 'Are the products original?', a: 'Describe your sourcing and authenticity policy here.' },
+      { q: 'Is there a warranty?', a: 'Describe the warranty terms for each product type here.' },
+      { q: 'How are gift cards delivered?', a: 'Explain how and when digital codes reach the customer.' },
+      { q: 'How long does shipping take?', a: 'List your shipping methods and delivery times here.' },
+      { q: 'Can I return a product?', a: 'Explain your return and exchange policy here.' },
     ],
   },
   cta: {
     label: 'Get started',
-    title: 'Start your project today!',
-    text: 'Join the clan — tell us about your game and we will bring its characters to life.',
-    button: 'Join the clan',
-    alt: 'Closing banner characters',
+    title: 'Ready for your next level?',
+    text: 'New gear, new games, new subscriptions — your next session starts here.',
+    button: 'Start shopping',
+    alt: 'Banner characters',
+  },
+  cart: {
+    title: 'Your cart',
+    empty: 'Your cart is empty.',
+    subtotal: 'Subtotal',
+    checkout: 'Checkout',
+    checkoutNote: 'Online payment is not connected yet.',
+    remove: 'Remove',
+    increase: 'Increase quantity',
+    decrease: 'Decrease quantity',
+    close: 'Close cart',
+    browse: 'Browse products',
   },
   footer: {
-    tagline: 'Forged in shadows. Made for players.',
-    studio: 'Studio',
-    quick: 'Quick links',
+    tagline: 'Gear up. Game on.',
+    shop: 'Shop',
+    help: 'Help',
     language: 'Language',
     rights: 'All rights reserved.',
     contactPending: 'Contact details coming soon.',
@@ -226,130 +247,145 @@ const en: Dictionary = {
 };
 
 const fa: Dictionary = {
-  meta: {
-    title: 'استودیو خلاق گیمینگ',
-    description: 'کاراکتر، جهان و کمپین برای بازی‌ها.',
-  },
+  meta: { title: 'فروشگاه گیمینگ', description: 'کنسول، دسته، بازی، لوازم جانبی و گیفت کارت.' },
   nav: {
-    about: 'درباره ما',
-    features: 'چه می‌سازیم',
-    process: 'فرایند',
+    categories: 'دسته‌بندی‌ها',
+    deals: 'تخفیف‌ها',
+    digital: 'گیفت کارت',
+    shop: 'فروشگاه',
     faq: 'سؤالات',
-    cta: 'شروع پروژه',
+    cart: 'سبد خرید',
     menu: 'منو',
     close: 'بستن',
     skip: 'رفتن به محتوا',
   },
   hero: {
-    titleLines: ['نقاب از آینده', 'بازی بردارید'],
-    sub: 'ما کاراکترها، جهان‌ها و کمپین‌هایی طراحی می‌کنیم که بازیکن را مستقیم به دل بازی می‌برند.',
-    cta: 'دیدن نمونه‌کارها',
-    card: { label: 'سطح قدرت', value: '۹٫۰/۱۰', open: 'باز کردن کاراکتر', alt: 'کارت کاراکتر ویژه' },
-    feature: { name: 'قهرمان #۰۰۱', text: 'کاراکتر ویژه شما اینجا قرار می‌گیرد؛ یک خط داستان برای جذب بازیکن.' },
+    titleLines: ['تجهیزاتت رو', 'لِوِل‌آپ کن'],
+    sub: 'کنسول، دسته، بازی، لوازم جانبی و گیفت کارت؛ هر چیزی که یک گیمر لازم دارد، یک‌جا.',
+    cta: 'خرید کنید',
+    cardLabel: 'قیمت',
+    featureText: 'انتخاب ویژه این هفته؛ آماده برای اضافه شدن به ست‌آپ شما.',
     stats: [
-      { value: '۰۵+', label: 'پروژه منتخب در ویترین' },
-      { value: '۰۲', label: 'زبان، یک تجربه' },
-      { value: '۱۰۰٪', label: 'آرت کاملاً اورجینال' },
+      { value: 'PS5', label: 'تجهیزات و بازی‌های پلی‌استیشن' },
+      { value: 'XBOX', label: 'کنسول ایکس‌باکس و گیم‌پس' },
+      { value: 'PC', label: 'گیفت کارت و لوازم جانبی' },
     ],
     alt: 'کاراکتر اصلی',
   },
+  product: { addToCart: 'افزودن به سبد', added: 'اضافه شد!', currency: 'تومان', off: 'تخفیف', from: 'از' },
+  categories: { label: 'مرور', title: 'خرید بر اساس دسته‌بندی', text: 'یک دسته را انتخاب کنید تا فروشگاه پایین فیلتر شود.' },
+  deals: {
+    label: 'زمان محدود',
+    title: 'تخفیف‌های ویژه',
+    viewAll: 'مشاهده همه محصولات',
+    endsIn: 'پایان در',
+    units: { h: 'ساعت', m: 'دقیقه', s: 'ثانیه' },
+    prev: 'قبلی',
+    next: 'بعدی',
+  },
   about: {
-    label: 'درباره ما',
-    statement: 'ما استودیویی خلاق هستیم که برای بازی‌ها کاراکتر و جهان می‌سازد.',
-    statement2: 'هر کاراکتر با داستان، سبک و قدرت پنهان خودش ساخته می‌شود.',
-    tags: ['کاراکتر #۰۱', 'کاراکتر #۰۲'],
-    cards: [
-      { label: 'کلاس', value: 'پیشرو', alt: 'کارت کاراکتر اول' },
-      { label: 'کلاس', value: 'مدافع', alt: 'کارت کاراکتر دوم' },
-      { label: 'کلاس', value: 'سایه', alt: 'کارت کاراکتر سوم' },
-    ],
+    label: 'چرا از ما بخرید',
+    statement: 'فروشگاهی که گیمرها برای گیمرها ساخته‌اند؛ تجهیزاتی که خودمان هم استفاده می‌کنیم.',
+    statement2: 'هر محصول برای تجربه بازی انتخاب می‌شود، نه فقط برای ظاهرش در ویترین.',
+    tags: ['پرفروش', 'پیشنهاد داغ'],
   },
-  features: {
-    label: 'چه می‌سازیم',
-    title: 'قفل خلاقیت را باز کنید',
-    text: 'یک مسیر کامل خلاقانه برای بازی‌ها؛ از اولین طرح تا روز رونمایی.',
-    items: [
-      { title: 'کاراکترهایی با روح', text: 'قهرمان‌ها و شخصیت‌های منفی؛ از سایه‌نما تا رندر نهایی.', alt: 'نمونه طراحی کاراکتر' },
-      { title: 'آرت بازی و کی‌آرت', text: 'جهان‌ها، محیط‌ها و تصاویر رونمایی که اسکرول را متوقف می‌کنند.', alt: 'نمونه آرت بازی' },
-      { title: 'برندینگ گیمینگ', text: 'لوگو، هویت و سیستم بصری که به اندازه خود بازی پرانرژی است.', alt: 'نمونه برندینگ گیمینگ' },
-    ],
-    cardCta: {
-      title: 'آماده پیوستن به قبیله هستید؟',
-      text: 'بازی، کاراکتر یا رونمایی‌تان را بیاورید؛ ما جهانش را می‌سازیم.',
-      button: 'شروع پروژه',
-    },
+  digital: {
+    label: 'دیجیتال',
+    title: 'گیفت کارت و اشتراک',
+    text: 'پلی‌استیشن پلاس، گیم‌پس، استیم و بیشتر؛ هر کارتی را به سبدتان اضافه کنید.',
+    bannerTitle: 'همه گیفت کارت‌ها یک‌جا',
+    bannerText: 'کیف پولتان را شارژ کنید یا یک اشتراک هدیه بدهید.',
+    bannerCta: 'مشاهده و خرید',
   },
-  signature: {
-    label: 'امضای ما',
-    title: 'هنر سایه‌ها',
-    text: 'هر پروژه چهار تخصص را در یک سبک قابل‌شناسایی ترکیب می‌کند.',
-    stats: [
-      { value: '2D', label: 'تصویرسازی' },
-      { value: '3D', label: 'رندر' },
-      { value: 'UI', label: 'رابط بازی' },
-      { value: 'FX', label: 'موشن و افکت' },
-    ],
-    alt: 'کاراکتر شاخص',
+  budget: {
+    label: 'بودجه شما',
+    title: 'خرید بر اساس بودجه',
+    text: 'سقف بودجه را انتخاب کنید تا محصولات مناسب را ببینید.',
+    upTo: 'تا',
+    million: 'میلیون',
+    alt: 'کاراکتر بخش بودجه',
+  },
+  shop: {
+    label: 'فروشگاه',
+    title: 'همه محصولات',
+    text: 'بر اساس دسته‌بندی یا بودجه فیلتر کنید.',
+    all: 'همه',
+    anyPrice: 'هر قیمتی',
+    upTo: 'تا',
+    empty: 'فعلاً محصولی با این فیلترها نیست.',
+    reset: 'حذف فیلترها',
   },
   steps: {
-    label: 'چطور کار می‌کند',
-    title: 'پروژه‌تان را در ۳ قدم شروع کنید',
-    text: 'مسیری ساده و شفاف از ایده تا آرت آماده بازی.',
+    label: 'نحوه خرید',
+    title: 'سفارش در ۳ قدم',
+    text: 'از انتخاب تا باز کردن جعبه، ساده.',
     items: [
-      { title: 'ایده‌تان را بگویید', text: 'درباره بازی، کاراکتر یا کمپین‌تان برایمان بنویسید.' },
-      { title: 'طراحی و بازبینی', text: 'با هم طرح می‌زنیم، اصلاح می‌کنیم و صیقل می‌دهیم.' },
-      { title: 'رونمایی با هم', text: 'فایل‌های نهایی، آماده برای بازیکن‌ها تحویل می‌شود.' },
+      { title: 'انتخاب کنید', text: 'دسته‌بندی‌ها، تخفیف‌ها و گیفت کارت‌ها را ببینید.' },
+      { title: 'به سبد اضافه کنید', text: 'سبد و تعدادها را یک‌جا بررسی کنید.' },
+      { title: 'تسویه کنید', text: 'سفارش را نهایی کنید و آماده بازی شوید.' },
     ],
-    boxLabel: 'آدرس ما را بردارید و ماجراجویی‌تان را در سایه‌ها شروع کنید!',
-    boxEmpty: 'ایمیل تماس به‌زودی',
+    boxLabel: 'قبل از خرید سؤالی دارید؟ آدرس پشتیبانی را کپی کنید.',
+    boxEmpty: 'ایمیل پشتیبانی به‌زودی',
     copy: 'کپی',
     copied: 'کپی شد!',
   },
   roadmap: {
-    label: 'فرایند',
-    title: 'از طرح اولیه تا رونمایی',
+    label: 'سفارش شما',
+    title: 'از سبد خرید تا دسته بازی',
     phase: 'مرحله',
     items: [
-      { title: 'ایده‌پردازی', points: ['بریف، رفرنس‌ها و اهداف', 'مودبورد و جهت هنری', 'اولین سایه‌نماها'] },
-      { title: 'طراحی کاراکتر', points: ['نماهای چرخشی و حالت‌های چهره', 'رنگ و لباس', 'جزئیات امضادار'] },
-      { title: 'جهان‌سازی', points: ['محیط‌ها و اشیا', 'نور و فضا', 'ترکیب‌بندی کی‌آرت'] },
-      { title: 'تولید', points: ['رندرها و فایل‌های نهایی', 'المان‌های برند و رابط', 'موشن و افکت'] },
-      { title: 'رونمایی', points: ['تصاویر کمپین', 'قالب‌های وب و شبکه‌های اجتماعی', 'پشتیبانی پس از انتشار'] },
+      { title: 'ثبت سفارش', points: ['تأیید سبد خرید', 'نمایش خلاصه سفارش', 'ارسال تأییدیه'] },
+      { title: 'بررسی و بسته‌بندی', points: ['بررسی کالا و لوازم همراه', 'بسته‌بندی ایمن', 'آماده ارسال'] },
+      { title: 'در مسیر', points: ['تحویل به پیک', 'اعلام اطلاعات رهگیری', 'ارسال آنلاین کدهای دیجیتال'] },
+      { title: 'تحویل', points: ['باز کردن و راه‌اندازی', 'نگهداری فاکتور', 'تماس با پشتیبانی در هر زمان'] },
+      { title: 'شروع بازی', points: ['دانلود بازی‌ها', 'فعال‌سازی اشتراک‌ها', 'برگشت برای ارتقای بعدی'] },
     ],
   },
-  team: {
-    label: 'شخصیت‌ها',
-    title: 'با گروه آشنا شوید',
-    text: 'شخصیت‌های پشت کار؛ آن‌ها را با گروه خودتان جایگزین کنید.',
-    members: [
-      { name: 'کاراکتر ۰۱', role: 'نقش یا عنوان', alt: 'پرتره اول گروه' },
-      { name: 'کاراکتر ۰۲', role: 'نقش یا عنوان', alt: 'پرتره دوم گروه' },
-      { name: 'کاراکتر ۰۳', role: 'نقش یا عنوان', alt: 'پرتره سوم گروه' },
+  platforms: {
+    label: 'پلتفرم‌ها',
+    title: 'همه پلتفرم‌ها',
+    text: 'این تصاویر را با تصاویر پلتفرم یا برندهای خودتان جایگزین کنید.',
+    items: [
+      { name: 'پلی‌استیشن', text: 'کنسول، دوال‌سنس، پلی‌استیشن پلاس', alt: 'پلی‌استیشن' },
+      { name: 'ایکس‌باکس', text: 'سری X|S، دسته، گیم‌پس', alt: 'ایکس‌باکس' },
+      { name: 'نینتندو', text: 'سوییچ، جوی‌کان، ای‌شاپ', alt: 'نینتندو' },
     ],
   },
   faq: {
     label: 'سؤالات',
     title: 'سؤالات متداول',
-    text: 'پاسخ رایج‌ترین سؤال‌ها اینجاست.',
+    text: 'این پاسخ‌ها را مطابق قوانین فروشگاه خودتان ویرایش کنید.',
     items: [
-      { q: 'چه چیزهایی می‌سازید؟', a: 'کاراکتر، آرت بازی، کی‌آرت، هویت بصری برندهای گیمینگ و تجربه‌های دیجیتال برای بازی‌ها.' },
-      { q: 'چطور پروژه را شروع کنم؟', a: 'توضیح کوتاهی از ایده‌تان بفرستید. با چند سؤال و یک برنامه پیشنهادی پاسخ می‌دهیم.' },
-      { q: 'دوبعدی و سه‌بعدی کار می‌کنید؟', a: 'بله؛ سبک هر پروژه متناسب با بازی، تیم و پلتفرم انتخاب می‌شود.' },
-      { q: 'هر پروژه چقدر طول می‌کشد؟', a: 'به اندازه پروژه بستگی دارد. بعد از اولین گفتگو، پیش از شروع کار یک زمان‌بندی مشخص دریافت می‌کنید.' },
-      { q: 'کمپین رونمایی را هم انجام می‌دهید؟', a: 'بله. می‌توانیم آرت را به تصاویر کمپین و قالب‌های وب و شبکه‌های اجتماعی گسترش دهیم.' },
+      { q: 'محصولات اورجینال هستند؟', a: 'سیاست تأمین و اصالت کالای فروشگاه را اینجا بنویسید.' },
+      { q: 'محصولات گارانتی دارند؟', a: 'شرایط گارانتی هر نوع محصول را اینجا بنویسید.' },
+      { q: 'گیفت کارت‌ها چطور تحویل داده می‌شوند؟', a: 'توضیح دهید کدهای دیجیتال چطور و چه زمانی به مشتری می‌رسد.' },
+      { q: 'ارسال چقدر طول می‌کشد؟', a: 'روش‌های ارسال و زمان تحویل را اینجا بنویسید.' },
+      { q: 'امکان مرجوع کردن کالا هست؟', a: 'شرایط مرجوعی و تعویض کالا را اینجا بنویسید.' },
     ],
   },
   cta: {
     label: 'شروع کنید',
-    title: 'همین امروز پروژه‌تان را شروع کنید!',
-    text: 'به قبیله بپیوندید؛ از بازی‌تان بگویید تا کاراکترهایش را زنده کنیم.',
-    button: 'پیوستن به قبیله',
-    alt: 'کاراکترهای بنر پایانی',
+    title: 'آماده مرحله بعدی هستید؟',
+    text: 'تجهیزات تازه، بازی‌های تازه، اشتراک‌های تازه؛ بازی بعدی‌تان از اینجا شروع می‌شود.',
+    button: 'شروع خرید',
+    alt: 'کاراکترهای بنر',
+  },
+  cart: {
+    title: 'سبد خرید',
+    empty: 'سبد خرید شما خالی است.',
+    subtotal: 'جمع کل',
+    checkout: 'تسویه حساب',
+    checkoutNote: 'درگاه پرداخت آنلاین هنوز وصل نشده است.',
+    remove: 'حذف',
+    increase: 'افزایش تعداد',
+    decrease: 'کاهش تعداد',
+    close: 'بستن سبد',
+    browse: 'مشاهده محصولات',
   },
   footer: {
-    tagline: 'ساخته‌شده در سایه‌ها، برای بازیکن‌ها.',
-    studio: 'استودیو',
-    quick: 'لینک‌های سریع',
+    tagline: 'تجهیز شو، بازی کن.',
+    shop: 'فروشگاه',
+    help: 'راهنما',
     language: 'زبان',
     rights: 'تمامی حقوق محفوظ است.',
     contactPending: 'اطلاعات تماس به‌زودی.',

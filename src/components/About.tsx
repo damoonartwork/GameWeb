@@ -4,6 +4,8 @@ import { useGsap } from '../hooks/useGsap';
 import { gsap, isTouch, prefersReducedMotion } from '../lib/gsap';
 import { Media } from './Media';
 import { ArrowIcon, ScrubHeading } from './ui';
+import { bestSellerIds, formatPrice, productById } from '../config/store';
+import { useCart } from '../store/CartContext';
 
 /**
  * Reference "ABOUT FATNINJA": scrubbed headline, three character cards that fan out
@@ -12,6 +14,8 @@ import { ArrowIcon, ScrubHeading } from './ui';
 export function About() {
   const { t, lang } = useLanguage();
   const root = useRef<HTMLElement>(null);
+  const { add } = useCart();
+  const picks = bestSellerIds.map((id) => productById(id)!).filter(Boolean);
 
   useGsap(
     () => {
@@ -79,18 +83,20 @@ export function About() {
       <div className="fan">
         <span className="fan__tag fan__tag--1">{t.about.tags[0]}</span>
         <span className="fan__tag fan__tag--2">{t.about.tags[1]}</span>
-        {t.about.cards.map((c, i) => (
-          <article key={i} className={`fan__card fan__card--${i + 1}`}>
+        {picks.map((p, i) => (
+          <article key={p.id} className={`fan__card fan__card--${i + 1}`}>
             <div className="fan__inner char-card">
-              <Media slot={(['about1', 'about2', 'about3'] as const)[i]} alt={c.alt} />
+              <Media file={p.image} ratio={4 / 5} size="800×1000" alt={p.name[lang]} />
               <div className="glass-chip glass-chip--sm">
                 <div>
-                  <span className="glass-chip__label">{c.label}:</span>
-                  <strong className="glass-chip__value">{c.value}</strong>
+                  <span className="glass-chip__label">{p.name[lang]}</span>
+                  <strong className="glass-chip__value">
+                    {formatPrice(p.price, lang)} <small>{t.product.currency}</small>
+                  </strong>
                 </div>
-                <span className="round-lime" aria-hidden="true">
+                <button type="button" className="round-lime" onClick={() => add(p.id)} aria-label={`${t.product.addToCart}: ${p.name[lang]}`}>
                   <ArrowIcon className="flip-x" />
-                </span>
+                </button>
               </div>
             </div>
           </article>

@@ -6,8 +6,9 @@ import { useGsap } from '../hooks/useGsap';
 import { dur, ease, gsap, prefersReducedMotion } from '../lib/gsap';
 import { lockScroll, scrollToTarget } from '../lib/scroll';
 import { LanguageSwitcher } from './LanguageSwitcher';
+import { useCart } from '../store/CartContext';
 
-export const sections = ['about', 'features', 'process', 'faq'] as const;
+export const sections = ['categories', 'deals', 'digital', 'shop', 'faq'] as const;
 
 /** Uploaded logo, or the placeholder lime mark + wordmark from brand.ts. */
 export function Logo({ className }: { className?: string }) {
@@ -52,6 +53,7 @@ export function Navigation({ introReady }: { introReady: boolean }) {
   const menu = useRef<HTMLDivElement>(null);
   const toggleBtn = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
+  const cart = useCart();
   const menuTl = useRef<gsap.core.Timeline | null>(null);
 
   useGsap(
@@ -157,9 +159,22 @@ export function Navigation({ introReady }: { introReady: boolean }) {
           <div className="nav__item nav__lang">
             <LanguageSwitcher />
           </div>
-          <a className="btn-lime nav__item nav__cta" href="#contact" onClick={onAnchorPlain}>
-            {t.nav.cta}
-          </a>
+          <button
+            type="button"
+            className="cart-btn nav__item"
+            onClick={() => cart.setOpen(true)}
+            aria-label={`${t.nav.cart} (${formatIndex(cart.count, lang, 1)})`}
+          >
+            <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+              <path d="M3 4h2l2.4 11.2a1 1 0 0 0 1 .8h8.9a1 1 0 0 0 1-.8L20 8H6.2" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              <circle cx="9" cy="20" r="1.4" fill="currentColor" />
+              <circle cx="17" cy="20" r="1.4" fill="currentColor" />
+            </svg>
+            <span className="cart-btn__label">{t.nav.cart}</span>
+            <span className={`cart-btn__count${cart.count ? ' has-items' : ''}`} key={cart.count} aria-hidden="true">
+              {formatIndex(cart.count, lang, 1)}
+            </span>
+          </button>
           <button
             ref={toggleBtn}
             type="button"
@@ -181,12 +196,12 @@ export function Navigation({ introReady }: { introReady: boolean }) {
       <div ref={menu} id="site-menu" className="menu" aria-hidden={!open} inert={!open}>
         <nav className="menu__nav" aria-label={t.nav.menu}>
           <ul>
-            {[...sections, 'contact' as const].map((id, i) => (
+            {sections.map((id, i) => (
               <li key={id}>
                 <a href={`#${id}`} onClick={onAnchor} className="menu__link">
                   <span className="menu__link-inner">
                     <span className="menu__index">{formatIndex(i + 1, lang)}</span>
-                    <span className="menu__label">{id === 'contact' ? t.nav.cta : t.nav[id]}</span>
+                    <span className="menu__label">{t.nav[id]}</span>
                   </span>
                 </a>
               </li>

@@ -63,10 +63,10 @@ export function Footer() {
             </ul>
           )}
         </div>
-        <nav className="footer__col" aria-label={t.footer.studio}>
-          <h2 className="footer__heading">{t.footer.studio}</h2>
+        <nav className="footer__col" aria-label={t.footer.shop}>
+          <h2 className="footer__heading">{t.footer.shop}</h2>
           <ul>
-            {sections.slice(0, 2).map((id) => (
+            {sections.slice(0, 4).map((id) => (
               <li key={id}>
                 <a href={`#${id}`} onClick={onAnchor} className="footer__link">
                   {t.nav[id]}
@@ -75,10 +75,10 @@ export function Footer() {
             ))}
           </ul>
         </nav>
-        <nav className="footer__col" aria-label={t.footer.quick}>
-          <h2 className="footer__heading">{t.footer.quick}</h2>
+        <nav className="footer__col" aria-label={t.footer.help}>
+          <h2 className="footer__heading">{t.footer.help}</h2>
           <ul>
-            {sections.slice(2).map((id) => (
+            {sections.slice(4).map((id) => (
               <li key={id}>
                 <a href={`#${id}`} onClick={onAnchor} className="footer__link">
                   {t.nav[id]}
@@ -86,8 +86,8 @@ export function Footer() {
               </li>
             ))}
             <li>
-              <a href="#contact" onClick={onAnchor} className="footer__link">
-                {t.nav.cta}
+              <a href="#process" onClick={onAnchor} className="footer__link">
+                {t.roadmap.label}
               </a>
             </li>
           </ul>

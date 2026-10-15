@@ -6,6 +6,8 @@ import { ease, gsap, isTouch, prefersReducedMotion } from '../lib/gsap';
 import { scramble } from '../lib/scramble';
 import { Media } from './Media';
 import { useAnchorClick } from './Navigation';
+import { formatPrice, heroProductId, productById } from '../config/store';
+import { useCart } from '../store/CartContext';
 import { ArrowIcon } from './ui';
 import { Ground } from './Scenery';
 import { GridLines } from './GridLines';
@@ -24,6 +26,8 @@ export function Hero({ introReady }: { introReady: boolean }) {
   const root = useRef<HTMLElement>(null);
   const introPlayed = useRef(false);
   const onAnchor = useAnchorClick();
+  const { add, justAdded } = useCart();
+  const hp = productById(heroProductId)!;
 
   useGsap(
     () => {
@@ -108,7 +112,7 @@ export function Hero({ introReady }: { introReady: boolean }) {
           ))}
         </h1>
         <p className="hero__sub">{t.hero.sub}</p>
-        <a href="#about" className="btn-lime btn-lime--lg hero__cta" onClick={onAnchor}>
+        <a href="#shop" className="btn-lime btn-lime--lg hero__cta" onClick={onAnchor}>
           {t.hero.cta}
         </a>
       </div>
@@ -117,15 +121,22 @@ export function Hero({ introReady }: { introReady: boolean }) {
         <div className="hero__side hero__side--start">
           <div className="hero__card tilt-shine">
             <div className="hero__card-frame" data-depth="14">
-              <Media slot="heroCard" alt={t.hero.card.alt} priority />
+              <Media file={hp.image} ratio={9 / 10} size="900×1000" alt={hp.name[lang]} priority />
               <div className="glass-chip">
                 <div>
-                  <span className="glass-chip__label">{t.hero.card.label}:</span>
-                  <strong className="glass-chip__value">{t.hero.card.value}</strong>
+                  <span className="glass-chip__label">{t.hero.cardLabel}:</span>
+                  <strong className="glass-chip__value">
+                    {formatPrice(hp.price, lang)} <small>{t.product.currency}</small>
+                  </strong>
                 </div>
-                <span className="round-lime" aria-hidden="true">
-                  <ArrowIcon className="flip-x" />
-                </span>
+                <button
+                  type="button"
+                  className={`round-lime${justAdded === hp.id ? ' is-added' : ''}`}
+                  onClick={() => add(hp.id)}
+                  aria-label={`${t.product.addToCart}: ${hp.name[lang]}`}
+                >
+                  {justAdded === hp.id ? '✓' : <ArrowIcon className="flip-x" />}
+                </button>
               </div>
             </div>
           </div>
@@ -134,9 +145,9 @@ export function Hero({ introReady }: { introReady: boolean }) {
               <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
                 <path d="M5 3l14 18M19 3 5 21" stroke="var(--lime)" strokeWidth="4" strokeLinecap="round" />
               </svg>
-              {t.hero.feature.name}
+              {hp.name[lang]}
             </p>
-            <p className="hero__feature-text">{t.hero.feature.text}</p>
+            <p className="hero__feature-text">{t.hero.featureText}</p>
           </div>
         </div>
 
