@@ -27,11 +27,13 @@ if not exist "node_modules" (
 
 echo.
 echo Starting the site... the browser will open automatically.
+echo Address: http://127.0.0.1:5173
 echo Keep this window open while you use the site. Close it to stop.
 echo.
 echo  IMPORTANT: do NOT click inside this window.
 echo  If the window title starts with "Select", the site freezes -
 echo  press Esc here, then refresh the browser.
 echo.
-call npm run dev -- --open
+rem 127.0.0.1 instead of "localhost": avoids IPv6 (::1) and VPN/TUN tools that hijack localhost
+call npm run dev -- --open --host 127.0.0.1
 pause
