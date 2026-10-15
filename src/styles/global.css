@@ -1242,8 +1242,8 @@ section:focus {
 .spin {
   /* tall, unpinned: the controller travels down through it while the page scrolls */
   position: relative;
-  height: 170svh;
-  min-height: 900px;
+  height: 210svh;
+  min-height: 1100px;
   overflow: hidden;
 }
 .spin__move {
@@ -1417,9 +1417,17 @@ section:focus {
     radial-gradient(120% 70% at 30% 100%, #7ed43a 0%, #2f8a2b 30%, #0f3a1e 60%, #0a1d14 100%);
   isolation: isolate;
 }
+.banner__bg {
+  /* clips the drifting, blurred light to the rounded banner */
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  overflow: hidden;
+  pointer-events: none;
+}
 .banner__glow {
   position: absolute;
-  z-index: -1;
   left: 0;
   right: 0;
   top: 52%;

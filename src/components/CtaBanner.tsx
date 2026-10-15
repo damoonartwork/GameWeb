@@ -36,7 +36,9 @@ export function CtaBanner() {
   return (
     <section ref={root} id="contact" className="cta section" tabIndex={-1} aria-labelledby="cta-title">
       <div className="banner">
-        <span className="banner__glow" aria-hidden="true" />
+        <span className="banner__bg" aria-hidden="true">
+          <span className="banner__glow" />
+        </span>
         <div className="banner__copy">
           <p className="eyebrow">{t.cta.label}</p>
           <h2 id="cta-title" className="display banner__title">
