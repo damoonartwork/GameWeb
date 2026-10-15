@@ -18,6 +18,10 @@ Any other file name: open the site with run.bat, click the round "Aa" button
 The "Aa" button only appears when running locally, never on the published site.
 After adding or removing files, refresh the browser.
 
+Not working? Open the "Aa" panel: each role shows "✓ loaded" or "✗ browser rejected this file".
+A rejected file is damaged or in a format the browser cannot read; re-export it as .woff2 or .ttf.
+Also make sure the role is not set to "Built-in (default)" in the panel; that overrides the file name.
+
 FA
 --
 فایل فونت (woff2، woff، ttf یا otf) را داخل همین پوشه بگذارید تا روی سایت تست شود.
@@ -34,3 +38,7 @@ FA
 بزنید و برای هر بخش، فونت دلخواه را از لیست انتخاب کنید.
 دکمه «Aa» فقط موقع اجرا روی کامپیوتر خودتان دیده می‌شود، نه روی سایت منتشرشده.
 بعد از اضافه یا حذف کردن فایل، صفحه مرورگر را Refresh کنید.
+
+کار نمی‌کند؟ پنل «Aa» را باز کنید: کنار هر بخش «✓ loaded» یعنی فونت بارگذاری شد و «✗ browser rejected» یعنی
+مرورگر فایل را قبول نکرد (فایل خراب است یا فرمتش پشتیبانی نمی‌شود؛ آن را دوباره با woff2 یا ttf خروجی بگیرید).
+همچنین دقت کنید آن بخش در پنل روی «Built-in (default)» نباشد؛ این گزینه اسم فایل را نادیده می‌گیرد.

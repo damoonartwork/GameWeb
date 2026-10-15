@@ -120,7 +120,7 @@ export function Hero({ introReady }: { introReady: boolean }) {
       <div className="hero__stage">
         <div className="hero__side hero__side--start">
           <div className="hero__card tilt-shine">
-            <div className="hero__card-frame" data-depth="14">
+            <div className="hero__card-frame">
               <Media file={hp.image} ratio={9 / 10} size="900×1000" alt={hp.name[lang]} priority />
               <div className="glass-chip">
                 <div>

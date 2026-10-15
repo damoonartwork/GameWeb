@@ -2202,6 +2202,15 @@ button.round-lime:hover {
   border-radius: 6px;
   padding: 6px 8px;
 }
+.fontlab__ok {
+  color: var(--lime);
+  font-weight: 600;
+}
+.fontlab__err {
+  display: block;
+  color: #ff7070;
+  font-weight: 600;
+}
 .fontlab__reset {
   justify-self: start;
   padding: 6px 12px;

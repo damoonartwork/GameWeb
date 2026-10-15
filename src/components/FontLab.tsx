@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { applyFonts, fontFiles, loadOverrides, ROLES, saveOverrides, type FontRole, type Overrides } from '../lib/customFonts';
 import { ScrollTrigger } from '../lib/gsap';
 
@@ -17,6 +17,27 @@ const LABELS: Record<FontRole, string> = {
 export function FontLab() {
   const [open, setOpen] = useState(false);
   const [o, setO] = useState<Overrides>(loadOverrides);
+  const [status, setStatus] = useState<Partial<Record<FontRole, 'ok' | 'error' | 'off'>>>({});
+
+  // Report, per role, whether the browser actually accepted the font file.
+  const check = async () => {
+    await document.fonts.ready;
+    const next: Partial<Record<FontRole, 'ok' | 'error' | 'off'>> = {};
+    for (const role of ROLES) {
+      const faces = [...document.fonts].filter((f) => f.family.replace(/["']/g, '') === `GW ${role}`);
+      if (!faces.length) {
+        next[role] = 'off';
+        continue;
+      }
+      await Promise.all(faces.map((f) => f.load().catch(() => null)));
+      next[role] = faces.some((f) => f.status === 'loaded') ? 'ok' : 'error';
+    }
+    setStatus(next);
+  };
+  useEffect(() => {
+    if (open) check();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open, o]);
 
   const update = (next: Overrides) => {
     setO(next);
@@ -42,7 +63,11 @@ export function FontLab() {
           ) : (
             ROLES.map((role) => (
               <label key={role} className="fontlab__row">
-                <span>{LABELS[role]}</span>
+                <span>
+                  {LABELS[role]}{' '}
+                  {status[role] === 'ok' && <b className="fontlab__ok">✓ loaded</b>}
+                  {status[role] === 'error' && <b className="fontlab__err">✗ browser rejected this file — try a .woff2/.ttf export</b>}
+                </span>
                 <select
                   value={o[role] === undefined ? 'auto' : o[role] === '' ? 'builtin' : o[role]}
                   onChange={(e) => {
