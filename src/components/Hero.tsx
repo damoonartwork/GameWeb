@@ -94,7 +94,7 @@ export function Hero({ introReady }: { introReady: boolean }) {
   return (
     <section ref={root} id="top" className="hero" aria-labelledby="hero-title">
       <div className="hero__bg" aria-hidden="true">
-        <GridLines className="hero__grid" spacing={210} line="rgba(200,255,120,0.07)" glow={LIME} streaks={8} offsetX={heroGridOffset} />
+        <GridLines className="hero__grid" spacing={210} line="rgba(200,255,120,0.07)" glow={LIME} streaks={16} offsetX={heroGridOffset} />
         <div className="hero__globe" data-depth="-12" />
         <div className="hero__rings" />
       </div>
@@ -115,8 +115,8 @@ export function Hero({ introReady }: { introReady: boolean }) {
 
       <div className="hero__stage">
         <div className="hero__side hero__side--start">
-          <div className="hero__card">
-            <div className="hero__card-frame tilt-inner tilt-shine" data-depth="14">
+          <div className="hero__card tilt-shine">
+            <div className="hero__card-frame" data-depth="14">
               <Media slot="heroCard" alt={t.hero.card.alt} priority />
               <div className="glass-chip">
                 <div>

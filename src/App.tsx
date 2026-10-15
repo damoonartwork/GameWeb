@@ -61,7 +61,7 @@ export function App() {
 
   return (
     <>
-      <GridLines className="page-grid" spacing={240} line="rgba(255,255,255,0.03)" glow={LIME} streaks={5} intensity={0.55} />
+      <GridLines className="page-grid" spacing={240} line="rgba(255,255,255,0.03)" glow={LIME} streaks={11} intensity={0.7} />
       <Navigation introReady={introReady} />
       <main id="main" tabIndex={-1}>
         <Hero introReady={introReady} />

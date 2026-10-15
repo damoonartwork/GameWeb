@@ -355,6 +355,7 @@ section:focus {
 .media__inner {
   position: absolute;
   inset: 0;
+  border-radius: inherit; /* so placeholders/images follow the frame's rounded corners */
 }
 .media img {
   width: 100%;
@@ -718,6 +719,7 @@ section:focus {
   padding-bottom: clamp(90px, 10vw, 190px);
 }
 .hero__card {
+  position: relative;
   width: min(300px, 100%);
   padding: 12px;
   border-radius: 30px;

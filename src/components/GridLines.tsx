@@ -68,9 +68,9 @@ export function GridLines({ spacing, line, glow, streaks, intensity = 1, offsetX
         vertical,
         lane: Math.floor(Math.random() * count),
         pos: Math.random() * span,
-        speed: dir * (40 + Math.random() * 90),
-        len: 60 + Math.random() * 70,
-        life: 1.6 + Math.random() * 2.2,
+        speed: dir * (60 + Math.random() * 110),
+        len: 140 + Math.random() * 200,
+        life: 3.5 + Math.random() * 3.5,
         age: 0,
       };
     };
@@ -104,7 +104,7 @@ export function GridLines({ spacing, line, glow, streaks, intensity = 1, offsetX
         }
         // fade in, hold, fade out
         const t = s.age / s.life;
-        const a = Math.min(1, t * 4, (1 - t) * 4) * 0.85 * intensity;
+        const a = Math.min(1, t * 6, (1 - t) * 6) * 0.9 * intensity;
         const lanePos = s.vertical ? ox + s.lane * spacing : spacing * (s.lane + 1);
         const head = s.pos;
         const tail = s.pos - Math.sign(s.speed) * s.len;
@@ -127,7 +127,7 @@ export function GridLines({ spacing, line, glow, streaks, intensity = 1, offsetX
       }
 
       // occasional "+" flash at an intersection
-      if (Math.random() < dt * 0.6) {
+      if (Math.random() < dt * 0.9) {
         const cols = lanes(true).count;
         const rows = Math.max(1, Math.floor(h / spacing));
         crosses.push({
