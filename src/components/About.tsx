@@ -6,6 +6,7 @@ import { Media } from './Media';
 import { ArrowIcon, ScrubHeading } from './ui';
 import { bestSellerIds, formatPrice, productById } from '../config/store';
 import { useCart } from '../store/CartContext';
+import { productHref } from '../lib/router';
 
 /**
  * Reference "ABOUT FATNINJA": scrubbed headline, three character cards that fan out
@@ -89,7 +90,9 @@ export function About() {
               <Media file={p.image} ratio={4 / 5} size="800×1000" alt={p.name[lang]} />
               <div className="glass-chip glass-chip--sm">
                 <div>
-                  <span className="glass-chip__label">{p.name[lang]}</span>
+                  <a className="glass-chip__label" href={productHref(p.id)}>
+                    {p.name[lang]}
+                  </a>
                   <strong className="glass-chip__value">
                     {formatPrice(p.price, lang)} <small>{t.product.currency}</small>
                   </strong>

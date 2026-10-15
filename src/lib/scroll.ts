@@ -1,5 +1,6 @@
 import Lenis from 'lenis';
 import { gsap, ScrollTrigger, prefersReducedMotion } from './gsap';
+import { goHome, parseRoute } from './router';
 
 let lenis: Lenis | null = null;
 
@@ -19,9 +20,15 @@ export function initSmoothScroll(): () => void {
 }
 
 export function scrollToTarget(target: string | number | HTMLElement) {
+  // On a product page the home sections aren't mounted: go home first, then scroll there.
+  if (parseRoute().name !== 'home') {
+    goHome(typeof target === 'string' ? target : undefined);
+    return;
+  }
   const el = typeof target === 'string' ? document.querySelector<HTMLElement>(target) : target;
   if (el === null) return;
   if (lenis) {
+    lenis.resize(); // page height may have just changed (e.g. product page → home)
     lenis.scrollTo(el, { duration: 1.4, force: true }); // force: the menu may still hold the scroll lock
     return;
   }
@@ -39,6 +46,9 @@ export function lockScroll(locked: boolean) {
 
 /** Instant jump that keeps Lenis' internal position in sync. */
 export function jumpTo(y: number) {
-  if (lenis) lenis.scrollTo(y, { immediate: true, force: true });
+  if (lenis) {
+    lenis.resize();
+    lenis.scrollTo(y, { immediate: true, force: true });
+  }
   else window.scrollTo(0, y);
 }

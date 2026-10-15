@@ -84,6 +84,20 @@ export type Dictionary = {
     close: string;
     browse: string;
   };
+  pdp: {
+    home: string;
+    breadcrumb: string;
+    gallery: string;
+    image: string;
+    quantity: string;
+    viewCart: string;
+    specs: string;
+    related: string;
+    details: string;
+    notFound: string;
+    backToShop: string;
+    fallback: string;
+  };
   footer: {
     tagline: string;
     shop: string;
@@ -229,6 +243,20 @@ const en: Dictionary = {
     close: 'Close cart',
     browse: 'Browse products',
   },
+  pdp: {
+    home: 'Home',
+    breadcrumb: 'Breadcrumb',
+    gallery: 'Product images',
+    image: 'Image',
+    quantity: 'Quantity',
+    viewCart: 'View cart',
+    specs: 'Specifications',
+    related: 'You may also like',
+    details: 'View details',
+    notFound: 'Product not found',
+    backToShop: 'Back to the shop',
+    fallback: 'A pick from our {category} range. Add it to your cart or browse similar products below.',
+  },
   footer: {
     tagline: 'Gear up. Game on.',
     shop: 'Shop',
@@ -373,6 +401,20 @@ const fa: Dictionary = {
     decrease: 'کاهش تعداد',
     close: 'بستن سبد',
     browse: 'مشاهده محصولات',
+  },
+  pdp: {
+    home: 'خانه',
+    breadcrumb: 'مسیر صفحه',
+    gallery: 'تصاویر محصول',
+    image: 'تصویر',
+    quantity: 'تعداد',
+    viewCart: 'مشاهده سبد',
+    specs: 'مشخصات',
+    related: 'محصولات مشابه',
+    details: 'مشاهده جزئیات',
+    notFound: 'محصول پیدا نشد',
+    backToShop: 'بازگشت به فروشگاه',
+    fallback: 'یکی از محصولات دسته {category}. آن را به سبد اضافه کنید یا محصولات مشابه را پایین ببینید.',
   },
   footer: {
     tagline: 'تجهیز شو، بازی کن.',

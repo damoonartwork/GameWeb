@@ -2243,6 +2243,264 @@ button.round-lime:hover {
   text-align: center;
 }
 
+
+/* =========================================================================
+   PRODUCT PAGE (#/product/<id>)
+   ========================================================================= */
+.pdp {
+  max-width: 1240px;
+  margin-inline: auto;
+  padding-top: clamp(110px, 14vh, 150px);
+  padding-bottom: clamp(70px, 10vh, 120px);
+  box-sizing: content-box;
+}
+.pdp--missing {
+  display: grid;
+  justify-items: center;
+  gap: 24px;
+  text-align: center;
+  min-height: 50vh;
+  align-content: center;
+}
+.pdp__crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-soft);
+  font-size: 0.9rem;
+  margin-bottom: 28px;
+}
+.pdp__crumbs button {
+  color: var(--text-soft);
+  transition: color 0.3s;
+}
+.pdp__crumbs button:hover {
+  color: var(--lime);
+}
+.pdp__crumbs [aria-current] {
+  color: var(--text);
+}
+.pdp__top {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  gap: clamp(28px, 5vw, 72px);
+  align-items: start;
+}
+.pdp__gallery {
+  position: sticky;
+  top: 24px;
+  display: grid;
+  gap: 14px;
+}
+.pdp__stage {
+  position: relative;
+  padding: clamp(24px, 4vw, 56px);
+  border-radius: 24px;
+  border: 1px solid var(--line);
+  background:
+    radial-gradient(70% 60% at 50% 55%, rgb(218 255 18 / 0.1), transparent 70%),
+    linear-gradient(180deg, var(--card-2), var(--card));
+}
+.pdp__off {
+  top: 18px;
+  inset-inline-end: 18px;
+}
+.pdp__thumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.pdp__thumb {
+  width: 76px;
+  padding: 6px;
+  border-radius: 12px;
+  border: 1px solid var(--line-strong);
+  background: var(--card);
+  transition: border-color 0.3s;
+}
+.pdp__thumb[aria-selected='true'],
+.pdp__thumb:hover {
+  border-color: var(--lime);
+}
+.pdp__info {
+  display: grid;
+  gap: 18px;
+  align-content: start;
+}
+.pdp__info .eyebrow {
+  margin-bottom: 0;
+}
+.pdp__title {
+  font-size: clamp(1.7rem, 3vw, 2.8rem);
+}
+:root[lang='fa'] .pdp__title {
+  font-size: clamp(1.6rem, 2.7vw, 2.5rem);
+}
+.pdp__lead {
+  color: var(--text-soft);
+  font-size: 1.05rem;
+  line-height: 1.8;
+  max-width: 52ch;
+}
+.pdp__price {
+  display: grid;
+  gap: 4px;
+  padding-block: 8px;
+  border-block: 1px solid var(--line);
+}
+.pdp__old {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--text-soft);
+}
+.pdp__save {
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: #ff4d4d;
+  color: #fff;
+  font-weight: 800;
+  font-size: 0.82rem;
+}
+.pdp__now {
+  color: var(--text-soft);
+}
+.pdp__now strong {
+  font-family: var(--f-display);
+  font-stretch: var(--display-stretch);
+  font-weight: 900;
+  font-size: clamp(1.8rem, 2.8vw, 2.4rem);
+  color: var(--lime);
+  margin-inline-end: 6px;
+}
+.pdp__buy {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+.pdp__qty {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  height: 54px;
+  padding-inline: 8px;
+  border-radius: 10px;
+  border: 1px solid var(--line-strong);
+}
+.pdp__qty button {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  font-weight: 800;
+  transition: background-color 0.3s, color 0.3s;
+}
+.pdp__qty button:hover:not(:disabled) {
+  background: var(--lime);
+  color: var(--lime-ink);
+}
+.pdp__qty button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+.pdp__qty span {
+  min-width: 1.5em;
+  text-align: center;
+  font-weight: 800;
+}
+.pdp__add {
+  flex: 1;
+  min-width: 200px;
+  height: 54px;
+}
+.pdp__view-cart {
+  color: var(--lime);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.pdp__highlights {
+  display: grid;
+  gap: 10px;
+  margin-top: 6px;
+}
+.pdp__highlights li {
+  position: relative;
+  padding-inline-start: 28px;
+}
+.pdp__highlights li::before {
+  content: '';
+  position: absolute;
+  inset-inline-start: 0;
+  top: 0.45em;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--lime) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8.5l2.5 2.5L12 5.5' fill='none' stroke='%230b0f05' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 100% no-repeat;
+}
+.pdp__h2 {
+  font-size: clamp(1.3rem, 2vw, 1.8rem);
+  margin-bottom: 22px;
+}
+.pdp__specs {
+  margin-top: clamp(50px, 7vw, 90px);
+  max-width: 760px;
+}
+.pdp__specs dl {
+  margin: 0;
+  border-radius: 14px;
+  border: 1px solid var(--line-strong);
+  overflow: hidden;
+}
+.pdp__spec {
+  display: grid;
+  grid-template-columns: minmax(120px, 34%) 1fr;
+  gap: 16px;
+  padding: 14px 18px;
+}
+.pdp__spec:nth-child(odd) {
+  background: rgb(255 255 255 / 0.03);
+}
+.pdp__spec dt {
+  color: var(--text-soft);
+}
+.pdp__spec dd {
+  margin: 0;
+  font-weight: 600;
+}
+.pdp__related {
+  margin-top: clamp(60px, 8vw, 100px);
+}
+.pcard__img,
+.pcard__name a,
+.gift__name a,
+.hero__feature-link,
+a.glass-chip__label {
+  color: inherit;
+}
+.pcard__img {
+  display: block;
+}
+.pcard__name a:hover,
+.gift__name a:hover,
+.hero__feature-link:hover,
+a.glass-chip__label:hover {
+  color: var(--lime);
+}
+.gift__name a:hover {
+  color: #3a6b00;
+}
+@media (max-width: 900px) {
+  .pdp__top {
+    grid-template-columns: 1fr;
+  }
+  .pdp__gallery {
+    position: static;
+  }
+}
+
 /* Font tester (dev server only) */
 .fontlab {
   position: fixed;

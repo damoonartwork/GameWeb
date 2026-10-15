@@ -2,6 +2,7 @@ import { discountPercent, formatPrice, type Product } from '../../config/store';
 import { useLanguage } from '../../i18n/LanguageContext';
 import { useCart } from '../../store/CartContext';
 import { Media } from '../Media';
+import { productHref } from '../../lib/router';
 
 /** Shop card: image, discount badge, name, price (+ struck old price), add-to-cart. */
 export function ProductCard({ product, priority }: { product: Product; priority?: boolean }) {
@@ -18,10 +19,12 @@ export function ProductCard({ product, priority }: { product: Product; priority?
           {pct}
         </span>
       )}
-      <div className="pcard__img">
-        <Media file={product.image} ratio={1} size="1000×1000 PNG/WebP" alt={product.name[lang]} priority={priority} className="media--cutout" />
-      </div>
-      <h3 className="pcard__name">{product.name[lang]}</h3>
+      <a className="pcard__img" href={productHref(product.id)} tabIndex={-1} aria-hidden="true">
+        <Media file={product.image} ratio={1} size="1000×1000 PNG/WebP" alt="" priority={priority} className="media--cutout" />
+      </a>
+      <h3 className="pcard__name">
+        <a href={productHref(product.id)}>{product.name[lang]}</a>
+      </h3>
       <div className="pcard__price">
         {product.oldPrice && (
           <s className="pcard__old">

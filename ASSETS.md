@@ -28,6 +28,9 @@ Each item's `image` field is the file basename to drop into `src/assets/images/`
 
 The hero card shows `heroProductId`, and the three fanned cards show `bestSellerIds`. Both are set in `store.ts`.
 
+**Product pages** (`#/product/<id>`): the description, highlights and specs for each product live in `src/config/productDetails.ts`.
+Extra gallery images for a product page: add `product-<id>-2`, `product-<id>-3`, … (up to 8). They appear as thumbnails automatically.
+
 ## Rotating controller section
 The pinned section before "Platforms" plays a DualSense turning from back to front as you scroll.
 The frames come from the supplied green-screen video, keyed to transparent WebP and stored in

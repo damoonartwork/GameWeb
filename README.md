@@ -13,6 +13,7 @@ npm run build    # type-check + production build into dist/
 |---|---|
 | All text, both languages | `src/i18n/translations.ts` |
 | Products, prices, categories, gift cards, deals timer, budgets | `src/config/store.ts` (**sample data — replace**) |
+| Product page text (description, highlights, specs) | `src/config/productDetails.ts` (**starter copy — check**) |
 | Brand name, email, socials, CTA link | `src/config/brand.ts` (placeholder brand **KAGE / کاگه**, replace it) |
 | Images (drop-in, auto-detected) | `src/assets/images/`, see **ASSETS.md** |
 | Fonts (drop-in, optional) | `fonts/` next to run.bat, see **fonts/README.txt**; live "Aa" tester on the dev server |
@@ -63,6 +64,7 @@ No console errors. No horizontal overflow. Language switching preserves scroll a
 - The reference's exact webfont is unknown. Archivo Expanded Black is the closest open font.
 
 ## Store notes
+- Every product has its own page at `#/product/<id>`. Clicking a product's name or image opens it. Hash URLs work on GitHub Pages, and back/forward work as expected.
 - The cart is client-side and saved in the visitor's browser. **No payment gateway is connected**: the checkout button is disabled and says so.
 - The deals countdown runs to midnight each day, or to `dealsEndAt` in `store.ts` if you set it.
 - Category tiles, budget circles and the gift-card banner all filter the shop grid and scroll to it.

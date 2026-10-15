@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { About } from './components/About';
 import { BackToTop } from './components/BackToTop';
 import { CtaBanner } from './components/CtaBanner';
@@ -18,9 +18,14 @@ import { Deals } from './components/store/Deals';
 import { Digital } from './components/store/Digital';
 import { Platforms } from './components/store/Platforms';
 import { Shop } from './components/store/Shop';
+import { ProductPage } from './components/store/ProductPage';
+import { takePendingSection, useRoute } from './lib/router';
+import { jumpTo, scrollToTarget } from './lib/scroll';
 import { assetUrl, criticalAssets } from './config/assets';
 import { ScrollTrigger } from './lib/gsap';
 import { initSmoothScroll } from './lib/scroll';
+import { useLanguage } from './i18n/LanguageContext';
+import { brand } from './config/brand';
 
 const LIME: [number, number, number] = [218, 255, 18];
 
@@ -36,6 +41,25 @@ function loadImage(src: string) {
 
 export function App() {
   const [introReady, setIntroReady] = useState(false);
+  const route = useRoute();
+  const { lang, t } = useLanguage();
+  const first = useRef(true);
+
+  // page switches: top of the new page (or the section a nav link asked for), fresh triggers
+  useEffect(() => {
+    if (first.current) {
+      first.current = false;
+      return;
+    }
+    const section = takePendingSection();
+    requestAnimationFrame(() => {
+      ScrollTrigger.refresh();
+      if (route.name === 'home' && section) scrollToTarget(section);
+      else jumpTo(0);
+    });
+    if (route.name === 'home') document.title = `${lang === 'fa' ? brand.nameFa : brand.name} — ${t.meta.title}`;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [route.name === 'product' ? route.id : 'home']);
 
   useEffect(() => {
     if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
@@ -68,19 +92,25 @@ export function App() {
       <GridLines className="page-grid" spacing={240} line="rgba(255,255,255,0.03)" glow={LIME} streaks={11} intensity={0.7} />
       <Navigation introReady={introReady} />
       <main id="main" tabIndex={-1}>
-        <Hero introReady={introReady} />
-        <Categories />
-        <Deals />
-        <Digital />
-        <About />
-        <Budget />
-        <Shop />
-        <Steps />
-        <Roadmap />
-        <ControllerSpin />
-        <Platforms />
-        <Faq />
-        <CtaBanner />
+        {route.name === 'product' ? (
+          <ProductPage id={route.id} />
+        ) : (
+          <>
+            <Hero introReady={introReady} />
+            <Categories />
+            <Deals />
+            <Digital />
+            <About />
+            <Budget />
+            <Shop />
+            <Steps />
+            <Roadmap />
+            <ControllerSpin />
+            <Platforms />
+            <Faq />
+            <CtaBanner />
+          </>
+        )}
       </main>
       <Footer />
       <BackToTop />

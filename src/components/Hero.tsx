@@ -8,6 +8,7 @@ import { Media } from './Media';
 import { useAnchorClick } from './Navigation';
 import { formatPrice, heroProductId, productById } from '../config/store';
 import { useCart } from '../store/CartContext';
+import { productHref } from '../lib/router';
 import { ArrowIcon } from './ui';
 import { Ground } from './Scenery';
 import { GridLines } from './GridLines';
@@ -145,7 +146,9 @@ export function Hero({ introReady }: { introReady: boolean }) {
               <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
                 <path d="M5 3l14 18M19 3 5 21" stroke="var(--lime)" strokeWidth="4" strokeLinecap="round" />
               </svg>
-              {hp.name[lang]}
+              <a href={productHref(hp.id)} className="hero__feature-link">
+                {hp.name[lang]}
+              </a>
             </p>
             <p className="hero__feature-text">{t.hero.featureText}</p>
           </div>

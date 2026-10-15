@@ -9,6 +9,7 @@ import { useCart, useShopFilter } from '../../store/CartContext';
 import { Media } from '../Media';
 import { fileUrl } from '../../config/assets';
 import { SectionHead } from '../ui';
+import { productHref } from '../../lib/router';
 
 /** Reference "محصولات دیجیتال": gift-card shaped tiles + a wide banner leading to all gift cards. */
 export function Digital() {
@@ -61,7 +62,9 @@ export function Digital() {
                   <Media file={p.image} ratio={1} size="800×800 PNG/WebP" alt={p.name[lang]} className="media--cutout" />
                 </div>
                 <div className="gift__foot">
-                  <h3 className="gift__name">{p.name[lang]}</h3>
+                  <h3 className="gift__name">
+                    <a href={productHref(p.id)}>{p.name[lang]}</a>
+                  </h3>
                   <p className="gift__price">
                     {t.product.from} {formatPrice(p.price, lang)} {t.product.currency}
                   </p>
