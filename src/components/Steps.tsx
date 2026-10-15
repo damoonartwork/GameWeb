@@ -2,6 +2,7 @@ import { useRef, useState } from 'react';
 import { brand } from '../config/brand';
 import { formatIndex, useLanguage } from '../i18n/LanguageContext';
 import { useGsap } from '../hooks/useGsap';
+import { useTilt } from '../hooks/useTilt';
 import { gsap, prefersReducedMotion, revealOnScroll } from '../lib/gsap';
 import { SectionHead } from './ui';
 
@@ -28,6 +29,8 @@ export function Steps() {
     root,
   );
 
+  useTilt(root, '.step', [lang], 7);
+
   const copy = async () => {
     if (!brand.email) return;
     try {
@@ -44,7 +47,7 @@ export function Steps() {
       <SectionHead id="steps-title" label={t.steps.label} title={t.steps.title} text={t.steps.text} scrub />
       <ol className="steps__grid">
         {t.steps.items.map((s, i) => (
-          <li key={i} className="step">
+          <li key={i} className="step tilt-shine">
             <span className="step__num">{formatIndex(i + 1, lang)}</span>
             <h3 className="step__title">{s.title}</h3>
             <p className="step__text">{s.text}</p>

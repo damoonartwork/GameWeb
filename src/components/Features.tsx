@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import { useLanguage } from '../i18n/LanguageContext';
 import { useGsap } from '../hooks/useGsap';
+import { useTilt } from '../hooks/useTilt';
 import { gsap, prefersReducedMotion, revealOnScroll } from '../lib/gsap';
 import { Media } from './Media';
 import { useAnchorClick } from './Navigation';
@@ -31,20 +32,22 @@ export function Features() {
     root,
   );
 
+  useTilt(root, '.perk', [lang], 5);
+
   const [a, b, c] = t.features.items;
   return (
     <section ref={root} id="features" className="features section" tabIndex={-1} aria-labelledby="features-title">
       <SectionHead id="features-title" label={t.features.label} title={t.features.title} text={t.features.text} scrub />
       <div className="perks">
         <div className="perks__col">
-          <article className="perk perk--tall">
+          <article className="perk perk--tall tilt-shine">
             <h3 className="perk__title">{a.title}</h3>
             <p className="perk__text">{a.text}</p>
             <div className="perk__art">
               <Media slot={slots[0]} alt={a.alt} className="media--cutout" />
             </div>
           </article>
-          <article className="perk">
+          <article className="perk tilt-shine">
             <h3 className="perk__title">{c.title}</h3>
             <p className="perk__text">{c.text}</p>
             <div className="perk__art perk__art--sm">
@@ -53,14 +56,14 @@ export function Features() {
           </article>
         </div>
         <div className="perks__col perks__col--offset">
-          <article className="perk perk--tall">
+          <article className="perk perk--tall tilt-shine">
             <h3 className="perk__title">{b.title}</h3>
             <p className="perk__text">{b.text}</p>
             <div className="perk__art">
               <Media slot={slots[1]} alt={b.alt} className="media--cutout" />
             </div>
           </article>
-          <article className="perk perk--cta">
+          <article className="perk perk--cta tilt-shine">
             <h3 className="perk__title">{t.features.cardCta.title}</h3>
             <p className="perk__text">{t.features.cardCta.text}</p>
             <a href="#contact" className="btn-lime" onClick={onAnchor}>

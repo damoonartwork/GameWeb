@@ -14,6 +14,7 @@ npm run build    # type-check + production build into dist/
 | All text, both languages | `src/i18n/translations.ts` |
 | Brand name, email, socials, CTA link | `src/config/brand.ts` (placeholder brand **KAGE / کاگه**, replace it) |
 | Images (drop-in, auto-detected) | `src/assets/images/`, see **ASSETS.md** |
+| Fonts (drop-in, optional) | `fonts/` next to run.bat, see **fonts/README.txt**; live "Aa" tester on the dev server |
 | Colors, fonts, spacing (design tokens) | top of `src/styles/global.css` |
 | Motion vocabulary (easings, durations) | `src/lib/gsap.ts` |
 
@@ -45,6 +46,9 @@ The design is rebuilt from a screen recording of the reference (`fatninja-mamun.
 | FAQ | click | Height animates open; the lime + rotates to × |
 | CTA banner | enter viewport | Banner rises and scales in; characters rise; the light streak drifts |
 | Hero depth | pointer | Globe and card follow the cursor at different depths (desktop only) |
+| Grid streaks | always (only while visible) | Canvas grid with short lime streaks sliding along the lines and "+" flashes at intersections. Hero grid plus a fainter page grid; static under reduced motion |
+| Card hover: fan | pointer | The hovered card straightens, grows and comes forward; its neighbours lean further away (as in the reference) |
+| Card hover: tilt | pointer | Hero card, bento cards, steps and crew lean toward the cursor in 3D, with a lime light following the pointer (desktop only) |
 | Language switch | click | Lime curtain wipes in the incoming reading direction; scroll position is preserved |
 
 All GSAP work runs inside `useGsap` (a `gsap.context` per component, reverted on unmount or language change), so triggers never duplicate. With reduced motion, everything is shown in its final state.

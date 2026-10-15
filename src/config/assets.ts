@@ -50,6 +50,14 @@ export const assetSlots = {
   team1: { file: 'team-01', ratio: 9 / 10, size: '900×1000' },
   team2: { file: 'team-02', ratio: 9 / 10, size: '900×1000' },
   team3: { file: 'team-03', ratio: 9 / 10, size: '900×1000' },
+  // Landscape interlude layers (back → front). Missing files fall back to the vector drawing.
+  landSun: { file: 'land-sun', ratio: 1, size: '800×800 transparent PNG/WebP' },
+  landBirds: { file: 'land-birds', ratio: 5 / 2, size: '600×240 transparent PNG/WebP' },
+  landCliffLeft: { file: 'land-cliff-left', ratio: 4 / 7, size: '900×1600 transparent PNG/WebP' },
+  landCliffRight: { file: 'land-cliff-right', ratio: 4 / 7, size: '900×1600 transparent PNG/WebP' },
+  landHillsBack: { file: 'land-hills-back', ratio: 3, size: '2560×860 transparent PNG/WebP' },
+  landHillsMid: { file: 'land-hills-mid', ratio: 3.5, size: '2560×730 transparent PNG/WebP' },
+  landHillsFront: { file: 'land-hills-front', ratio: 4, size: '2560×640 transparent PNG/WebP' },
   // Closing banner
   cta: { file: 'cta-characters', ratio: 4 / 3, size: '1600×1200 transparent PNG/WebP' },
 } satisfies Record<string, AssetSlot>;

@@ -1,7 +1,7 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useLanguage } from '../i18n/LanguageContext';
 import { useGsap } from '../hooks/useGsap';
-import { gsap, prefersReducedMotion } from '../lib/gsap';
+import { gsap, isTouch, prefersReducedMotion } from '../lib/gsap';
 import { Media } from './Media';
 import { ArrowIcon, ScrubHeading } from './ui';
 
@@ -34,6 +34,44 @@ export function About() {
     root,
   );
 
+  // Hover (as in the reference): the card under the cursor straightens, grows and comes forward;
+  // its neighbours lean a little further away. Animates the inner wrapper so the scroll-driven
+  // fan rotation on the outer card is never disturbed.
+  useEffect(() => {
+    const el = root.current;
+    if (!el || isTouch() || prefersReducedMotion()) return;
+    const cards = Array.from(el.querySelectorAll<HTMLElement>('.fan__card'));
+    const inners = cards.map((c) => c.querySelector<HTMLElement>('.fan__inner')!);
+    const focus = (i: number | null) => {
+      cards.forEach((card, j) => {
+        const outer = Number(gsap.getProperty(card, 'rotate')) || 0;
+        const active = i === j;
+        gsap.to(inners[j], {
+          rotate: i === null ? 0 : active ? -outer : outer * 0.45,
+          scale: i === null ? 1 : active ? 1.08 : 0.96,
+          y: active ? -14 : 0,
+          duration: 0.6,
+          ease: 'power3.out',
+          overwrite: 'auto',
+        });
+        card.style.zIndex = active ? '5' : '';
+      });
+    };
+    const offs = cards.map((card, i) => {
+      const enter = () => focus(i);
+      card.addEventListener('pointerenter', enter);
+      return () => card.removeEventListener('pointerenter', enter);
+    });
+    const fan = el.querySelector<HTMLElement>('.fan')!;
+    const leave = () => focus(null);
+    fan.addEventListener('pointerleave', leave);
+    return () => {
+      offs.forEach((o) => o());
+      fan.removeEventListener('pointerleave', leave);
+      inners.forEach((n) => gsap.set(n, { rotate: 0, scale: 1, y: 0 }));
+    };
+  }, [lang]);
+
   return (
     <section ref={root} id="about" className="about section" tabIndex={-1} aria-labelledby="about-title">
       <p className="eyebrow">{t.about.label}</p>
@@ -42,16 +80,18 @@ export function About() {
         <span className="fan__tag fan__tag--1">{t.about.tags[0]}</span>
         <span className="fan__tag fan__tag--2">{t.about.tags[1]}</span>
         {t.about.cards.map((c, i) => (
-          <article key={i} className={`fan__card fan__card--${i + 1} char-card`}>
-            <Media slot={(['about1', 'about2', 'about3'] as const)[i]} alt={c.alt} />
-            <div className="glass-chip glass-chip--sm">
-              <div>
-                <span className="glass-chip__label">{c.label}:</span>
-                <strong className="glass-chip__value">{c.value}</strong>
+          <article key={i} className={`fan__card fan__card--${i + 1}`}>
+            <div className="fan__inner char-card">
+              <Media slot={(['about1', 'about2', 'about3'] as const)[i]} alt={c.alt} />
+              <div className="glass-chip glass-chip--sm">
+                <div>
+                  <span className="glass-chip__label">{c.label}:</span>
+                  <strong className="glass-chip__value">{c.value}</strong>
+                </div>
+                <span className="round-lime" aria-hidden="true">
+                  <ArrowIcon className="flip-x" />
+                </span>
               </div>
-              <span className="round-lime" aria-hidden="true">
-                <ArrowIcon className="flip-x" />
-              </span>
             </div>
           </article>
         ))}

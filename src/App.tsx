@@ -4,7 +4,9 @@ import { BackToTop } from './components/BackToTop';
 import { CtaBanner } from './components/CtaBanner';
 import { Faq } from './components/Faq';
 import { Features } from './components/Features';
+import { FontLab } from './components/FontLab';
 import { Footer } from './components/Footer';
+import { GridLines } from './components/GridLines';
 import { Hero } from './components/Hero';
 import { Navigation } from './components/Navigation';
 import { Roadmap } from './components/Roadmap';
@@ -15,6 +17,8 @@ import { Team } from './components/Team';
 import { assetUrl, criticalAssets } from './config/assets';
 import { ScrollTrigger } from './lib/gsap';
 import { initSmoothScroll } from './lib/scroll';
+
+const LIME: [number, number, number] = [218, 255, 18];
 
 const MAX_WAIT = 2500; // ms — the reference has no loading screen, so never hold the intro for long
 
@@ -57,6 +61,7 @@ export function App() {
 
   return (
     <>
+      <GridLines className="page-grid" spacing={240} line="rgba(255,255,255,0.03)" glow={LIME} streaks={5} intensity={0.55} />
       <Navigation introReady={introReady} />
       <main id="main" tabIndex={-1}>
         <Hero introReady={introReady} />
@@ -72,6 +77,7 @@ export function App() {
       </main>
       <Footer />
       <BackToTop />
+      {import.meta.env.DEV && <FontLab />}
     </>
   );
 }

@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import { useLanguage } from '../i18n/LanguageContext';
 import { useGsap } from '../hooks/useGsap';
+import { useTilt } from '../hooks/useTilt';
 import { gsap, prefersReducedMotion, revealOnScroll } from '../lib/gsap';
 import { Media } from './Media';
 import { SectionHead } from './ui';
@@ -24,13 +25,15 @@ export function Team() {
     root,
   );
 
+  useTilt(root, '.member', [lang], 9);
+
   return (
     <section ref={root} className="team section" aria-labelledby="team-title">
       <SectionHead id="team-title" label={t.team.label} title={t.team.title} text={t.team.text} scrub />
       <ul className="team__grid">
         {t.team.members.map((m, i) => (
           <li key={i} className="member">
-            <div className="member__frame">
+            <div className="member__frame tilt-inner tilt-shine">
               <Media slot={slots[i]} alt={m.alt} />
             </div>
             <h3 className="member__name">{m.name}</h3>

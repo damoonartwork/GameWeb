@@ -19,4 +19,18 @@ Slots are defined in `src/config/assets.ts`.
 
 Export at about 80% quality and keep `hero-character` under ~500 KB: the hero intro waits for it, for at most 2.5 s.
 Artwork is never filtered or mirrored, including in Persian (RTL) mode.
-The hills, cliffs and moon of the landscape interlude are vector shapes drawn in `src/components/Scenery.tsx`, not images. Their colours are tokens at the top of `src/styles/global.css`.
+## Landscape interlude layers (optional)
+Each layer of the pinned landscape scene (before the team section) can be your own image. Any layer without a file keeps its built-in vector drawing, so you can replace them one at a time. Use transparent PNG/WebP for all of them.
+
+| Filename | Layer (back → front) | Size | Notes |
+|---|---|---|---|
+| `land-sun` | Sun/moon disc, rises up | 800×800 | centred, never cropped |
+| `land-birds` | Birds in front of the sun, drift sideways | 600×240 | |
+| `land-cliff-left` | Left mountain, slides in from the left | 900×1600 | anchored bottom-left |
+| `land-cliff-right` | Right mountain, slides in from the right | 900×1600 | anchored bottom-right |
+| `land-hills-back` | Back hills | 2560×860 | full width; top edge always visible |
+| `land-hills-mid` | Middle hills | 2560×730 | full width |
+| `land-hills-front` | Front hill, swells to fill the screen at the end | 2560×640 | full width |
+
+## Fonts
+Fonts are not images: put font files in the **`fonts/`** folder next to `run.bat`. See `fonts/README.txt`.
