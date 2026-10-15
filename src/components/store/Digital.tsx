@@ -7,6 +7,7 @@ import { gsap, prefersReducedMotion, revealOnScroll } from '../../lib/gsap';
 import { scrollToTarget } from '../../lib/scroll';
 import { useCart, useShopFilter } from '../../store/CartContext';
 import { Media } from '../Media';
+import { fileUrl } from '../../config/assets';
 import { SectionHead } from '../ui';
 
 /** Reference "محصولات دیجیتال": gift-card shaped tiles + a wide banner leading to all gift cards. */
@@ -61,9 +62,17 @@ export function Digital() {
       </ul>
       <div className="gift-banner">
         <div className="gift-banner__cards" aria-hidden="true">
-          {digitalTiles.concat(digitalTiles).map(({ id, color }, i) => (
-            <span key={i} className="gift-banner__card" style={{ ['--gift' as string]: color }} data-id={id} />
-          ))}
+          {digitalTiles.concat(digitalTiles).map(({ id, color }, i) => {
+            // Same artwork as the tiles above (gift-*.png); just the colour block until it exists.
+            const p = productById(id);
+            const url = p ? fileUrl(p.image) : null;
+            return (
+              <span key={i} className="gift-banner__card" style={{ ['--gift' as string]: color }} data-id={id}>
+                {url && <img src={url} alt="" loading="lazy" decoding="async" draggable={false} />}
+                {p && <span className="gift-banner__label">{p.name[lang]}</span>}
+              </span>
+            );
+          })}
         </div>
         <div className="gift-banner__copy">
           <h3 className="display">{t.digital.bannerTitle}</h3>

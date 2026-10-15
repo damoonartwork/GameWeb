@@ -1887,11 +1887,37 @@ button.round-lime:hover {
   rotate: 28deg;
 }
 .gift-banner__card {
+  position: relative;
+  display: block;
+  overflow: hidden;
   height: 130px;
   border-radius: 12px;
   background: linear-gradient(180deg, var(--gift) 62%, #fff 62%);
   box-shadow: 0 10px 20px -10px rgb(0 0 0 / 0.5);
   animation: gift-drift 9s ease-in-out infinite alternate;
+}
+.gift-banner__card img {
+  position: absolute;
+  left: 50%;
+  top: 6%;
+  width: 60%;
+  height: 52%;
+  margin-left: -30%;
+  object-fit: contain;
+}
+.gift-banner__label {
+  position: absolute;
+  inset-inline: 6px;
+  bottom: 8px;
+  height: 26%;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  font-size: 0.6rem;
+  font-weight: 800;
+  line-height: 1.2;
+  color: var(--lime-ink);
+  overflow: hidden;
 }
 .gift-banner__card:nth-child(even) {
   margin-top: 60px;
